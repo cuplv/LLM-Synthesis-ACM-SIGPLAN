@@ -23,7 +23,7 @@ Our system architecture is outlined in Algorithm \ref{alg:system_alg}.
     \caption{System Algorithm} 
     \begin{algorithmic}[1]
         \State \textbf{Require:} Language Model $\mathcal{L}$, beam width $m$, gold query $g$ and some string prompt $\mathcal{P}$, number of mistakes $n$
-        \Procedure{LanguageModelValidator}{$\mathcal{P}, w, g, n $}
+        \Procedure{LanguageModelValidator}{$\mathcal{P}, w, g, n$}
             \If{$g == w \text{~returns~} \mathrm{TRUE}$ }
                 % \State $t_i \gets q ~||~ w$
                 \State $\mathcal{P} \gets \mathcal{P} ~||~ w$
