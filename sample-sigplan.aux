@@ -1,0 +1,61 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{spider-sql}
+\citation{scythe}
+\citation{patsql}
+\citation{scythe}
+\citation{patsql}
+\citation{scythe}
+\citation{patsql}
+\citation{dail-sql}
+\citation{dail-sql}
+\citation{spider-sql}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{1}{section.2}\protected@file@percent }
+\citation{probabilistic-model-synthesis}
+\citation{ml-pbe}
+\citation{llm-cegis}
+\citation{llm-enumerative-search}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The overall system architecture. The Language Model Generator is prompted to generate a TSQL query given a database schema and natural language question. The generator returns a list of lexemes to the Validator which incrementally validates the most probable lexeme against the gold one and corrects the generator if there is a mismatch.}}{2}{figure.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:overview}{{1}{2}{The overall system architecture. The Language Model Generator is prompted to generate a TSQL query given a database schema and natural language question. The generator returns a list of lexemes to the Validator which incrementally validates the most probable lexeme against the gold one and corrects the generator if there is a mismatch}{figure.caption.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Our Approach}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Language Model (LM) Generator}{2}{subsection.3.1}\protected@file@percent }
+\citation{bai2023qwentechnicalreport}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experimental Setup}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Implementation}{3}{subsection.4.1}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces System Algorithm}}{3}{algorithm.1}\protected@file@percent }
+\newlabel{alg:system_alg}{{1}{3}{System Algorithm}{algorithm.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces This table shows the empirical evaluation results for SQL generation. Mostly schema and aggregation errors. For the finetuned model eglym/DR-TEXT2SQL-CodeLlama2-7B }}{3}{table.caption.2}\protected@file@percent }
+\newlabel{eval1}{{1}{3}{This table shows the empirical evaluation results for SQL generation. Mostly schema and aggregation errors. For the finetuned model eglym/DR-TEXT2SQL-CodeLlama2-7B}{table.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Results}{3}{subsection.4.2}\protected@file@percent }
+\bibstyle{kr}
+\bibdata{sample-base}
+\bibcite{bai2023qwentechnicalreport}{\citeauthoryear {Bai \bgroup et al\mbox  .\egroup }{2023}}
+\bibcite{dail-sql}{\citeauthoryear {Gao \bgroup et al\mbox  .\egroup }{2024}}
+\bibcite{llm-cegis}{\citeauthoryear {Jha \bgroup et al\mbox  .\egroup }{2023}}
+\bibcite{probabilistic-model-synthesis}{\citeauthoryear {Lee \bgroup et al\mbox  .\egroup }{2018}}
+\bibcite{llm-enumerative-search}{\citeauthoryear {Li, Parsert, and Polgreen}{2024}}
+\bibcite{ml-pbe}{\citeauthoryear {Menon \bgroup et al\mbox  .\egroup }{2013}}
+\bibcite{patsql}{\citeauthoryear {Takenouchi \bgroup et al\mbox  .\egroup }{2021}}
+\bibcite{scythe}{\citeauthoryear {Wang, Cheung, and Bodik}{2017}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Results for Qwen2.5-Coder-7B }}{4}{table.caption.3}\protected@file@percent }
+\newlabel{eval1}{{2}{4}{Results for Qwen2.5-Coder-7B}{table.caption.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Taxonomy}{4}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Schema based errors}{4}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Wrong Naming}{4}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Wrong Values}{4}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Structural based errors}{4}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{LIMIT errors}{4}{section*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Everything else}{4}{section*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Where Conditions}{4}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subparagraph}{Wrong operator}{4}{section*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Aggregate Errors}{4}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Other}{4}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{4}{section.6}\protected@file@percent }
+\bibcite{spider-sql}{\citeauthoryear {Yu \bgroup et al\mbox  .\egroup }{2018}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Error Types and suggested symbolic fixes }}{5}{table.caption.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Different SFT models and general error distributions over 51 queries.}}{5}{table.caption.10}\protected@file@percent }
+\gdef \@abspage@last{5}

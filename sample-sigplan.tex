@@ -23,10 +23,27 @@
 \usepackage{booktabs}
 \usepackage{algorithm}
 \usepackage{algorithmic}
-\usepackage{algpseudocode}
 \usepackage{ifthen}
 \usepackage{xcolor}
 
+\newcommand\algorithmicprocedure{\textbf{procedure}}
+\newcommand{\algorithmicendprocedure}{\algorithmicend\ \algorithmicprocedure}
+\makeatletter
+\newcommand\PROCEDURE[3][default]{%
+  \ALC@it
+  \algorithmicprocedure\ \textsc{#2}(#3)%
+  \ALC@com{#1}%
+  \begin{ALC@prc}%
+}
+\newcommand\ENDPROCEDURE{%
+  \end{ALC@prc}%
+  \ifthenelse{\boolean{ALC@noend}}{}{%
+    \ALC@it\algorithmicendprocedure
+  }%
+}
+\newcommand\CALL[2]{\textsc{#1}(#2)}
+\newenvironment{ALC@prc}{\begin{ALC@g}}{\end{ALC@g}}
+\makeatother
 
 \urlstyle{same}
 
@@ -116,7 +133,7 @@ Our findings provide interpretable insight into where LLMs fail and suggest prom
 \begin{figure*}
     \centering
     \includegraphics[width=\textwidth]{Systemoverview.png}
-    \caption{The overall system architecture. The Language Model Generator is prompted to generate a TSQL query given a database schema and natural language question. The generator returns a list of lexemes to the Validator which incrementally validates the most probable lexeme against the gold one and corrects the generator if there is a mismatch. }
+    \caption{The overall system architecture. The Language Model Generator is prompted to generate a TSQL query given a database schema and natural language question. The generator returns a list of lexemes to the Validator which incrementally validates the most probable lexeme against the gold one and corrects the generator if there is a mismatch.}
     \label{fig:overview}
 \end{figure*}
 

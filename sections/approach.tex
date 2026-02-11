@@ -1,6 +1,6 @@
 
 \section{Our Approach}
-Our overall system is shown in Figure \ref{fig:overview}.
+Our overall system is shown in Figure~\ref{fig:overview}.
 
 \subsection{Language Model (LM) Generator}
 Consider $\mathcal{L}$ to be an (autoregressive) Language Model created for a sequence generation task that has a predefined vocabulary $\Sigma$, consisting of some $k$ tokens which are used as part of the tokenization. At each timestep $i \in [1, n]$, the model generates a sequence of these tokens, $(t_1, t_2, \dots, t_n)$ based on an autoregressive decoding process where the token with the highest probability is selected. This is usually part of a heuristic or sampling based search procedure on the set of $k$ tokens to predict the next most probable token. Now, consider the LM to be finetuned on a new DSL and the tokens in the vocabulary are not changed. This means that the LM is now capable of producing the probability distribution over the same tokens but conforming to the changed ordering of our DSL $\ie$ if an original ordering of tokens $w \in \Sigma$ exists, then a new ordering of tokens $w^* \in \Sigma$ should also be produced by the LM. A $\mathcal{L}$ generates tokens and concatenates them by taking the token with the highest probability and generates a new token and continues until a whitespace token is generated or a max heap size is reached. 
@@ -17,38 +17,57 @@ Since we use the language model as an autoregressive next token predictor, we wo
 
 % This \textbf{lexeme level validation} guides 
 
-Our system architecture is outlined in Algorithm \ref{alg:system_alg}.
+Our system architecture is outlined in Algorithm~\ref{alg:system_alg}.
 
 \begin{algorithm}[ht!]
-    \caption{System Algorithm} 
-    \begin{algorithmic}[1]
-        \State \textbf{Require:} Language Model $\mathcal{L}$, beam width $m$, gold query $g$ and some string prompt $\mathcal{P}$, number of mistakes $n$
-        \Procedure{LanguageModelValidator}{$\mathcal{P}, w, g, n$}
-            \If{$g == w \text{~returns~} \mathrm{TRUE}$ }
-                % \State $t_i \gets q ~||~ w$
-                \State $\mathcal{P} \gets \mathcal{P} ~||~ w$
-                \State \textbf{return} $\mathcal{P}, n$
-            \Else
-                % \State $t_i \gets q ~||~ g$
-                \State $\mathcal{P} \gets \mathcal{P} ~||~ g$
-                \State $n \gets n +1$
-                
-                \State \textbf{return} $\mathcal{P}, n$
-            \EndIf
-        \EndProcedure
-
-    \Procedure{Orchestrator}{}
-    \State ${n} \gets 0$
-	\For {$i=1,2,\ldots,len(gold\_query)$}
-		
-        \State ${w_i} \gets $\Call{$\mathcal{L}$}{$\mathcal{P}$}
-        \State ${g_i} \gets $\Call{GoldLexeme}{$g, i$} 
-        % \State $B_i \in \{w_i^1,\dots,w_i^k\} $ which are the top k lexemes in a beam 
-            
-        \State $\mathcal{P}, n \gets $\Call{LanguageModelValidator}{$\mathcal{P}, w_i, g_i, n$} 
-        
-	\EndFor
-    \State \textbf{return} $n$
-    \EndProcedure
-    \end{algorithmic} \label{alg:system_alg}
+\caption{System Algorithm}
+\label{alg:system_alg}
+\begin{algorithmic}[1]
+\STATE \textbf{Require:} Language Model $\mathcal{L}$, beam width $m$, gold query $g$ and some string prompt $\mathcal{P}$, number of mistakes $n$
+\PROCEDURE{LanguageModelValidator}{$\mathcal{P}, w, g, n$}
+\IF{$g == w \text{ returns } \mathrm{TRUE}$ }
+\STATE $\mathcal{P} \gets \mathcal{P} ~||~ w$
+\STATE \textbf{return} $\mathcal{P}, n$
+\ELSE
+\STATE $\mathcal{P} \gets \mathcal{P} ~||~ g$
+\STATE $n \gets n +1$
+\STATE \textbf{return} $\mathcal{P}, n$
+\ENDIF
+\ENDPROCEDURE
+\PROCEDURE{Orchestrator}{}
+\STATE ${n} \gets 0$
+\FOR {$i=1,2,\ldots,\mathrm{len}(\mathrm{gold\_query})$}
+\STATE ${w_i} \gets ~$\CALL{$\mathcal{L}$}{$\mathcal{P}$}
+\STATE ${g_i} \gets ~$\CALL{GoldLexeme}{$g, i$} 
+\STATE $\mathcal{P}, n \gets ~$\CALL{LanguageModelValidator}{$\mathcal{P}, w_i, g_i, n$} 
+\ENDFOR
+\STATE \textbf{return} $n$
+\ENDPROCEDURE
+\end{algorithmic}
 \end{algorithm}
+
+% %     \State \textbf{Require:} Language Model $\mathcal{L}$, beam width $m$, gold query $g$ and some string prompt $\mathcal{P}$, number of mistakes $n$
+% %     \Procedure{LanguageModelValidator}{$\mathcal{P}, w, g, n$}
+% %         \If{$g == w \text{ returns } \mathrm{TRUE}$ }
+% %             % \State $t_i \gets q ~||~ w$
+% %             \State $\mathcal{P} \gets \mathcal{P} ~||~ w$
+% %             \State \textbf{return} $\mathcal{P}, n$
+% %         \Else
+% %             % \State $t_i \gets q ~||~ g$
+% %             \State $\mathcal{P} \gets \mathcal{P} ~||~ g$
+% %             \State $n \gets n +1$
+% %             \State \textbf{return} $\mathcal{P}, n$
+% %         \EndIf
+% %     \EndProcedure
+% % \Procedure{Orchestrator}{}
+% % \State ${n} \gets 0$
+% % \For {$i=1,2,\ldots,\mathrm{len}(\mathrm{gold\_query})$}
+% %     \State ${w_i} \gets $\Call{$\mathcal{L}$}{$\mathcal{P}$}
+% %     \State ${g_i} \gets $\Call{GoldLexeme}{$g, i$} 
+% %     % \State $B_i \in \{w_i^1,\dots,w_i^k\} $ which are the top k lexemes in a beam 
+% %     \State $\mathcal{P}, n \gets $\Call{LanguageModelValidator}{$\mathcal{P}, w_i, g_i, n$} 
+% % \EndFor
+% % \State \textbf{return} $n$
+% % \EndProcedure
+% \end{algorithmic}
+% \end{algorithm}
