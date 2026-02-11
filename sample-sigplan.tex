@@ -104,14 +104,10 @@ fourth@example.com
 
 Large Language Models (LLMs) exhibit strong performance for program synthesis tasks including text-to-SQL, up to 86.6\% accuracy on the Spider 1.0 benchmark, but purely neural techniques remain prone to hallucinations.
 Existing approaches to improve accuracy generally rely on post-hoc verification, that fails to constrain unproductive path exploration, or constrained decoding techniques that rely on learned distributions leaning towards correct programs.
-Due to the autoregressive nature of LLMs, early mistakes can guide the model towards incorrect search paths and fully decoded queries are expensive to correct.
-Existing approaches generally rely on post-hoc verification or more black-box techniques such as prompt engineering or supervised fine-tuning that rely heavily on the learned distribution of the model.
-Due to the fundamental limitations of LLMs, purely neural techniques will lead to hallucinated output.
-In this work, we observe that LLM mistakes can be grouped into several patterns.
-Techniques such as constrained decoding offer some mitigation, but we address the limitations of such methodologies.
-We find that in many cases certain error categories are amenable to symbolic fixes.
-We propose a framework that integrates incremental validation into the decoding process of LLMs, enabling lexeme-level identification of reasoning failures during decoding, and propose a taxonomy of the resulting errors and their corresponding symbolic fixes.
-Our findings provide interpretable insight into where LLMs fail and suggest a promising, neuro-symbolic direction for improving LLM guided program synthesis.
+In this work, we study the mistakes LLMs make when synthesizing SQL queries.
+We observe that the mistakes can be grouped into \wip{<x>} error categories, \wip{<y>} of which are amenable to symbolic fixes.
+Importantly, we find that \emph{constrained decoding alone is insufficient} to address \wip{<z>} of these categories.
+Our findings provide interpretable insight into where LLMs fail and suggest promising, neuro-symbolic directions for improving LLM guided program synthesis.
 
 % include limitations of constrained decoding 
 
