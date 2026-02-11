@@ -1,0 +1,31 @@
+\section{Introduction}
+\jedi{Symbolic techniques could be used to address LLM's weakness for program synthesis tasks: LLMs make good guesses on average, but lack correctness guarantees.}
+The advent of Large Language Models (LLMs) has introduced a novel way of tackling program synthesis as they are increasingly used as program generators to synthesize working code. In contrast to other program synthesis techniques, LLMs are scalable to larger and more complex programs; however, they struggle with self-correction and can get stuck down an incorrect path that, ultimately, will not yield correct code. Conventional program synthesis techniques use symbolic reasoning to produce correct code but are limited in scalability. We hypothesize that an integration of insights and techniques from conventional symbolic reasoning techniques can be applied at inference time to guide LLMs to more promising search spaces. 
+
+To evaluate the validity of our hypothesis, we focus our efforts on tackling a subspace of the program synthesis domain, the text-to-SQL task, as it is easier to verify and validate a query's correctness. The text-to-SQL task is concerned with generating valid SQL queries that correctly answers a natural language question for a given schema or workflow. For example, for the question "How many clubs are there?" for a given schema the corresponding gold SQL query is "SELECT count(*) FROM club" \cite{spider-sql}. We hypothesize that the insights gained from this work will be further applicable in broader code generation tasks. 
+
+Our contributions are as follows:
+
+FIXME motivate contributions in the introduction, include problem statement
+FIXME variants of TSQL and you finetune models based on these and does it make a difference
+FIXME error categorization for lexemes not in top-k 
+FIXME in theory if we used TSQL instead of SQL then we could argue more symbolic techniques to fix TSQL that would be harder to fix for SQL
+
+
+\begin{itemize}
+    % \item We introduce a novel DSL \textbf{TSQL} which captures the logical dataflow of query evaluation and allows for verification of partial subqueries.
+
+    \item We present a lexeme level verification framework that incrementally corrects the LLM and guides decoding towards more productive generation paths.
+    \item We show that constrained decoding alone does not reduce LLM search space enough to meaningfully improve program synthesis for realistic SQL queries.
+    \item We present empirical evidence supporting the integration of symbolic techniques to aid program synthesis, suggesting that the combination of techniques could improve LLM-based synthesis.
+
+
+    \item We give one way to categorize mistakes the LLM makes.
+    \item We show that <x> mistake categories are amenable to a handful of symbolic repair techniques.
+    \item We show that the combination of constrained decoding and symbolic repair techniques could help fix the majority of mistakes an LLM makes
+\end{itemize}
+
+
+% We perform supervised finetuning on an LLM (Qwen-7B?) on the Spider 1.0 dataset using a DSL (TSQL) for easier evaluation and give the LLM a database schema and natural language question and prompt the LLM to generate a valid TSQL query that answers the NL question. Using the SFT model, we generate a candidate query lexeme by lexeme. As the LLM is generating lexemes, we compare each with the gold lexeme. If there is a mismatch, we correct the LLM's behavior by providing the generator with the gold lexeme and continue generating lexemes. We observe that the SFT model produces the correct query FIXME (85) percent of the time; however, the inclusion of symbolic techniques would increase the percentage of correctly generated queries to FIXME (95) percent.
+
+% We observe several errors in the LLM's generation that can be corrected through simple symbolic fixes.  

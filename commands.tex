@@ -1,0 +1,94 @@
+% Comment commands used by Evan. Contain boolean flags to either enable/disable all coments, or enable/disable TODOs and jedi statements.
+\newboolean{showcomments}
+\setboolean{showcomments}{true}
+\newboolean{showjedi}
+\setboolean{showjedi}{true}
+\newboolean{showtodos}
+\setboolean{showtodos}{false}
+\newcommand{\editcomment}[2][red]{\ifthenelse{\boolean{showcomments}}{{\color{#1}$\bigl[$\bgroup\em #2\egroup$\bigr]$}}{}}
+\newcommand{\note}[1]{\editcomment[blue]{#1}}
+\newcommand{\todo}[1]{\ifthenelse{\boolean{showtodos}}{\editcomment{{\bf TODO:} #1}}}
+% Evan likes to review "jedi" statements, that should capture the essence of a paragraph (i.e. how would Yoda convey the point of a paragraph?). Should be able to just read the jedi statements to get all the important points of a paper.
+\newcommand{\jedi}[1]{\ifthenelse{\boolean{showjedi}}{\editcomment[cyan]{#1}}{}}
+
+\newcommand{\ie}{\textit{i.e.}~}
+\newcommand{\eg}{\textit{e.g.}~}
+
+% Note(klinvill): \xspace tries adds a space after uses of `\lang` when
+% reasonable. The package's creator recommends not using xspace
+% (https://tex.stackexchange.com/questions/86565/drawbacks-of-xspace/86620#86620),
+% but I believe that the LaTeX behavior of eating spaces will be more surprising
+% to co-authors than the occassional weird spacing introduced by xspace.
+% Language Name
+%---------------
+\newcommand{\lang}{TSQL\xspace}
+
+\newcommand{\bigstep}{\Downarrow}
+% Formatting
+%---------
+\newcommand{\kw}[1]{\texttt{#1}} %keywords
+\newcommand{\code}[1]{{\tt #1}}
+\newcommand{\C}[1]{\code{#1}}
+\newcommand{\tuplee}[1]{\langle #1 \rangle}
+\newcommand*{\rom}[1]{\expandafter\romannumeral #1}
+\newcommand{\spc}[0]{\quad}
+\newcommand{\ALT}{~\mid~}
+\newcommand{\ALTE}{\spc\mid\spc}
+\newcommand{\conj}{~\wedge~}
+\newcommand{\disj}{~\vee~}
+\newcommand{\Iv}{I_{\mathrm{le}}^v}
+\newcommand{\cle}{\mvc_{\mathrm{le}}}
+\newcommand{\blue}[1]{\textcolor{Blue}{#1}}
+\newcommand{\brown}[1]{\textcolor{Brown}{#1}}
+
+
+% Math env
+%-----------
+\newenvironment{nop}{}{}
+\newenvironment{smathpar}{
+\begin{nop}\small\begin{mathpar}}{
+\end{mathpar}\end{nop}\ignorespacesafterend}
+
+% Relational algebra notation for use in denotational semantics
+%--------------
+\newcommand{\denote}[1]{\llbracket #1 \rrbracket}
+\newcommand{\semof}{\denote}
+\newcommand{\projectOp}{\pi}
+\newcommand{\project}[2]{\projectOp_{#1}(#2)}
+\newcommand{\filterOp}{\sigma}
+\newcommand{\filter}[2]{\filterOp_{#1}(#2)}
+\newcommand{\joinOp}{\bowtie}
+\newcommand{\join}[3]{#1 \bowtie_{#3} #2}
+\newcommand{\aggfun}{\mathcal{G}}
+\newcommand{\agg}[2]{|#2|_{#1}}
+\newcommand{\orderOp}{\omega}
+\newcommand{\orderby}[2]{\orderOp_{#1}(#2)}
+\newcommand{\groupby}[2]{|#2|_{#1}}
+\newcommand{\renameOp}{\rho}
+\newcommand{\rename}[2]{\renameOp_{#1}(#2)}
+\newcommand{\bind}{\gg=}
+
+
+\newcommand{\concatRows}{\mathbin{++}}
+\newcommand{\concatCols}{\oplus}
+
+\newcommand{\db}{\mathcal{D}}
+\newcommand{\denotedb}[1]{\denote{#1}_{\db}}
+
+% Inference rule notation
+\newcommand{\RULE}[3]{\inferrule*[Right=#1]{#2}{#3}}
+\newcommand{\rulelabel}[1]{\textrm{\sc {#1}}}
+
+\newcommand{\hole}{\square}
+\newcommand{\collection}[1]{\overline{#1}}
+
+\newcommand{\cstr}{\mathcal{C}}
+\newcommand{\cols}{\sf cols}
+\newcommand{\fresh}{\sf fresh}
+
+% Custom commands
+\newcommand{\lm}{\mathcal{L}}
+\theoremstyle{definition}
+\newtheorem{exmp}{Example}[section]
+\newtheorem{thrm}{Theorem}[section]
+\newtheorem{lma}{Lemma}[section]

@@ -1,0 +1,149 @@
+%%%% kr-instructions.tex -- version 1.3 (11-Jan-2021)
+
+\typeout{KR2026 Instructions for Authors}
+
+% These are the instructions for authors for KR-26.
+
+\documentclass{article}
+\pdfpagewidth=8.5in
+\pdfpageheight=11in
+
+\usepackage{kr}
+
+% Use the postscript times font!
+\usepackage{times}
+\usepackage{soul}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[small]{caption}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{algpseudocode}
+\usepackage{ifthen}
+\usepackage{xcolor}
+
+
+\urlstyle{same}
+
+% the following package is optional:
+%\usepackage{latexsym}
+
+% See https://www.overleaf.com/learn/latex/theorems_and_proofs
+% for a nice explanation of how to define new theorems, but keep
+% in mind that the amsthm package is already included in this
+% template and that you must *not* alter the styling.
+\newtheorem{example}{Example}
+\newtheorem{theorem}{Theorem}
+
+% Following comment is from ijcai97-submit.tex:
+% The preparation of these files was supported by Schlumberger Palo Alto
+% Research, AT\&T Bell Laboratories, and Morgan Kaufmann Publishers.
+% Shirley Jowell, of Morgan Kaufmann Publishers, and Peter F.
+% Patel-Schneider, of AT\&T Bell Laboratories collaborated on their
+% preparation.
+
+% These instructions can be modified and used in other conferences as long
+% as credit to the authors and supporting agencies is retained, this notice
+% is not changed, and further modification or reuse is not restricted.
+% Neither Shirley Jowell nor Peter F. Patel-Schneider can be listed as
+% contacts for providing assistance without their prior permission.
+
+% To use for other conferences, change references to files and the
+% conference appropriate and use other authors, contacts, publishers, and
+% organizations.
+% Also change the deadline and address for returning papers and the length and
+% page charge instructions.
+% Put where the files are available in the appropriate places.
+%PDF Info Is REQUIRED.
+\pdfinfo{
+/TemplateVersion (KR.2026.0)
+}
+
+
+
+\title{Lexeme Level Verification for Language Model Guided Program Synthesis}
+\input{commands}
+
+% Single author syntax
+\iffalse % (remove the multiple-author syntax below and \iffalse ... \fi here)
+\author{%
+    Author name
+    \affiliations
+    Affiliation
+    \emails
+    email@example.com    % email
+}
+\fi
+% Multiple author syntax
+\author{%
+First Author$^1$\and
+Second Author$^2$\and
+Third Author$^{2,3}$\and
+Fourth Author$^4$ \\
+\affiliations
+$^1$First Affiliation\\
+$^2$Second Affiliation\\
+$^3$Third Affiliation\\
+$^4$Fourth Affiliation \\
+\emails
+\{first, second\}@example.com,
+third@other.example.com,
+fourth@example.com
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+
+Large Language Models (LLMs) exhibit strong performance for program synthesis tasks including text-to-SQL, up to 86.6\% accuracy on the Spider 1.0 benchmark, but purely neural techniques remain prone to hallucinations.
+Existing approaches to improve accuracy generally rely on post-hoc verification, that fails to constrain unproductive path exploration, or constrained decoding techniques that rely on learned distributions leaning towards correct programs.
+Due to the autoregressive nature of LLMs, early mistakes can guide the model towards incorrect search paths and fully decoded queries are expensive to correct.
+Existing approaches generally rely on post-hoc verification or more black-box techniques such as prompt engineering or supervised fine-tuning that rely heavily on the learned distribution of the model.
+Due to the fundamental limitations of LLMs, purely neural techniques will lead to hallucinated output.
+In this work, we observe that LLM mistakes can be grouped into several patterns.
+Techniques such as constrained decoding offer some mitigation, but we address the limitations of such methodologies.
+We find that in many cases certain error categories are amenable to symbolic fixes.
+We propose a framework that integrates incremental validation into the decoding process of LLMs, enabling lexeme-level identification of reasoning failures during decoding, and propose a taxonomy of the resulting errors and their corresponding symbolic fixes.
+Our findings provide interpretable insight into where LLMs fail and suggest a promising, neuro-symbolic direction for improving LLM guided program synthesis.
+
+% include limitations of constrained decoding 
+
+\end{abstract}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{Systemoverview.png}
+    \caption{The overall system architecture. The Language Model Generator is prompted to generate a TSQL query given a database schema and natural language question. The generator returns a list of lexemes to the Validator which incrementally validates the most probable lexeme against the gold one and corrects the generator if there is a mismatch. }
+    \label{fig:overview}
+\end{figure*}
+
+\input{sections/introduction}
+
+\input{sections/related_work}
+
+% \section{TSQL}
+% \input{sections/syntax}
+
+% \input{sections/semantics}
+
+\input{sections/approach}
+
+\input{sections/experimentalSetup}
+
+\input{sections/conclusion}
+
+
+%% The file kr.bst is a bibliography style file for BibTeX 0.99c
+\bibliographystyle{kr}
+\bibliography{sample-base}
+
+\end{document}
+
+

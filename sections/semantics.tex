@@ -1,0 +1,40 @@
+\subsection{TSQL Semantics}
+\lang is given a denotational semantics using the relational algebra operations $\projectOp$ (multiset projection), $\filterOp$ (selection), and $\joinOp$ (join on predicate).
+\todo{Technically $\projectOp$ is just set projection... Should we use a different operator?}
+
+Under standard SQL semantics, a table is undordered until it flows through an \kw{ORDER BY} clause.
+Following a similar approach as VeriEQL~\cite{VeriEQL}, we use both a bag semantics and list semantics for unordered and ordered tables respectively.
+
+
+\todo{Include semantics. Maybe need to define operations like \kw{AGGREGATE} in terms of functions on lists of tuples/records (like VeriEQL does).}
+
+\begin{figure*}[ht]
+\boxed{\denotedb{q} = T', \db'} \\
+\todo{Should we use a big-step semantics instead with the database changing?}
+\boxed{q, \db \bigstep T, \db'}
+
+\begin{mathpar}
+    \begin{array}{lcl}
+      \denotedb{\kw{PROJECT} ~ e ~ \kw{FROM} ~ q} & = & \projectOp_{\denotedb{e}}(\denotedb{q}) \\
+      \denotedb{\kw{PROJECT DISTINCT} ~ e ~ \kw{FROM} ~ q} & = & \kw{Set}( \projectOp_{\denotedb{e}}(\denotedb{q}) ) \\
+      \denotedb{\kw{SELECT WHERE} ~ \phi ~ \kw{FROM} ~ q} & = & \filterOp_{\denotedb{\phi}}(\denotedb{q}) \\
+      \denotedb{\kw{JOIN} ~ q ~ \kw{WITH} ~ q' ~ \kw{ON} ~ \phi} & = & \filterOp_{\denotedb{\phi}}(\denotedb{q} \times \denotedb{q'}) \\
+      % \denotedb{\kw{AGGREGATE} ~ e ~ \kw{FROM} ~ q} & = & \denotedb{\kw{PROJECT} ~ (\kw{distinctCols}(q) ++ \denotedb{e}) ~ \kw{FROM} ~ \kw{LIMIT} ~ 1 ~ \kw{FROM} ~ q} ??? \\
+      % \denotedb{\kw{AGGREGATE} ~ e ~ \kw{FROM} ~ q} & = &
+      %   \kw{map}(\lambda r.~ \projectOp_{\kw{distinctCols}(\denotedb{q})}(r) \oplus \denotedb{e}) ??? \\
+      \denotedb{\kw{AGGREGATE} ~ e ~ \kw{FROM} ~ q} & = &
+        \projectOp_{\kw{distinctCols}(\denotedb{q})}(\denotedb{q})[1] \concatCols \kw{map}(\denotedb{e}, \lambda agg.~\denotedb{agg}) ??? \\
+    \denotedb{\kw{UNION} ~ q ~ \kw{WITH} ~ q'} & = & \denotedb{q} \concatRows \rho_{\kw{Cols}(\denotedb{q})}(\denotedb{q'}) \\
+    \denotedb{\kw{INTERSECT} ~ q ~ \kw{WITH} ~ q'} & = & \kw{filter}(\denotedb{q}, \lambda r.~ r \in \rho_{\kw{Cols}(\denotedb{q})}(\denotedb{q'})) \\
+    \denotedb{\kw{EXCEPT} ~ q ~ \kw{WITH} ~ q'} & = & \kw{filter}(\denotedb{q}, \lambda r.~ r \notin \rho_{\kw{Cols}(\denotedb{q})}(\denotedb{q'})) \\
+    \denotedb{\kw{LIMIT} ~ e ~ \kw{FROM} ~ q} & = & \denotedb{q}[\denotedb{e}] \\
+    && \todo{Tables can be renamed or aliased, so queries should produce both the output table and a new database.} \\
+    \denotedb{\kw{AS} ~ v ~ \kw{FROM} ~ q} & = & P(v, \denotedb{q}) \\
+    \denotedb{T} & = & \db[T] \\
+    
+        
+    \end{array}
+\end{mathpar}
+\caption{\lang semantics.}
+\label{fig:semantics}
+\end{figure*}

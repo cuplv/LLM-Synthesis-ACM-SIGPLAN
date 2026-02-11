@@ -1,0 +1,96 @@
+\subsection{TSQL Syntax}
+
+SQL's design has some well-known drawbacks including that the syntax does not reflect data flow~\cite{pipesql}.
+This presents a challenge to incremental query validation which we perform in reverse data flow order. To this end, we introduce a novel Domain Specific Language (DSL) based on SQL which we call TSQL to allow for validation of partial prefixes when autoregressively generating queries. The syntax of TSQL is shown in \ref{fig:syntax}.
+
+
+\begin{figure*}[ht]
+\begin{mathpar}
+    \begin{array}{lclcl}
+
+      q & \in & \kw{Queries} & \Coloneqq ~~ &
+        %
+        \kw{PROJECT} ~ [\kw{DISTINCT}] ~ \overline{ac} ~ \kw{FROM} ~ q \spc
+        \blue{\project{\kw{distinct}? \overline{ac}}{q}} 
+        %
+        \ALT \kw{SELECT WHERE} ~ \phi ~ \kw{FROM} ~ q \spc
+        \blue{\filter{\phi}{q}}\\
+        %
+        &&&&\ALT \kw{JOIN} ~ q ~ \kw{WITH} ~ q ~ \kw{ON} ~ {\overline{\phi}} \spc
+        \blue{\join{q}{q}{\overline{\phi}}} \spc
+        %
+        \ALT \kw{ORDER BY} ~ {\overline{oc}} ~ \kw{FROM} ~ q \spc
+        \blue{\orderby{{\overline{oc}}}{q}}\\
+% Can be \overline{oc} above, but keeping it simple.
+        %
+        &&&& \ALT \kw{AGGREGATE} ~ {\overline{ag}} ~ [\kw{GROUP BY} ~ {\overline{ac}}] ~ \kw{FROM} ~
+        q \spc
+        \blue{\agg{\overline{ag}}{\groupby{[{\overline{ac}}]}{q}}}\\
+% Can be \overline{ac} above, but keeping it simple.
+        %
+        &&&& \ALT \kw{UNION} ~ q ~ \kw{WITH} ~ q \spc
+        \blue{q \cup q} \spc
+        %
+        \ALT \kw{INTERSECT} ~ q ~ \kw{WITH} ~ q \spc
+        \blue{q \cap q}\\
+        %
+        &&&& \ALT \kw{REMOVE} ~ q ~ \kw{FROM} ~ q \spc
+        \blue {q - q}\spc
+        %
+        \ALT \kw{LIMIT} ~ n ~ \kw{FROM} ~ q \spc
+        \blue{\filter{n}{q}}\\
+        %
+        &&&& \ALT \kw{AS} ~ x ~ q ~[\kw{FROM} ~ t ] \spc 
+        \blue{\rename{x}{q}}
+        \spc
+        \ALT t \\
+%       &&&& \ALT \hole \\
+    \end{array}
+    %%%%%
+\\
+
+    \begin{array}{lclcl}
+      ac & \in & \kw{Aliased Columns} & \Coloneqq &
+          [\kw{AS} ~x] ~c \spc 
+          \blue{[x/]c}\\
+      ag & \in & \kw{Aliased Aggregates} & \Coloneqq &
+      [\kw{AS} ~id] ~ \aggfun ~ [\kw{DISTINCT}] ~ (c)
+      \blue{[x/]\aggfun_{\kw{distinct}?}(c)}\\
+      % ag & \in & \kw{Aliased Aggregates} & \Coloneqq &
+      %     [\kw{AS} ~id] ~\aggfun(c) \spc
+      %     \blue{[x/]\aggfun(c)}\\
+      oc & \in & \kw{Ordered Columns} & \Coloneqq & 
+          [\kw{DESC} \ALT \kw{ASC}] ~ e\\
+      c  & \in & \kw{Columns} & \Coloneqq & [t.]id\\ 
+      v & \in & \kw{Values} & \Coloneqq & 
+  \kw{NULL} \ALT n \ALT f \ALT \kw{TRUE} \ALT \kw{FALSE} \ALT s \\
+
+      \phi & \in & \kw{Predicates} & \Coloneqq &
+            e ~ \odot ~ e \ALT \kw{NOT} ~ \phi \spc
+            \blue{\neg\phi}
+            \ALT \kw{AND}(\phi,\phi) \spc
+            \blue{\phi \wedge \phi} \\
+          &&&& \ALT \kw{OR}(\phi,\phi) \spc
+            \blue{\phi \vee \phi} 
+            \ALT \kw{IN}(e,q) \spc
+            \blue{e \in q}\\
+%        &&&& \ALT \hole \\
+      \odot & \in & \kw{Comparators} & \Coloneqq &
+        > \ALT >= \ALT < \ALT <= \ALT = \ALT != \ALT LIKE \\
+      \aggfun & \in & \kw{Aggregators} & \Coloneqq &
+        \kw{COUNT} \ALT
+        \kw{SUM} \ALT
+        \kw{AVG} \ALT
+        \kw{MIN} \ALT
+        \kw{MAX} \\
+      e & \in & \kw{Expressions} & \Coloneqq &
+        c \ALT v \ALT  e ~ \otimes ~ e \ALT
+        q \ALT ~ \aggfun ~ [\kw{DISTINCT}] ~ (e) \\
+      \otimes & \in & \kw{Arithmetic} & \Coloneqq &
+        + \ALT - \ALT * \ALT / \\
+        
+    \end{array}
+\end{mathpar}
+\caption{\lang: Concrete and \blue{abstract} syntax. Note: n= positive integers, f=float and s=string literals, t=table name and id=identifier}
+\label{fig:syntax}
+\end{figure*}
