@@ -120,12 +120,13 @@ fourth@example.com
 \begin{abstract}
 
 Large Language Models (LLMs) exhibit strong performance for program synthesis tasks including text-to-SQL, up to 86.6\% accuracy on the Spider 1.0 benchmark, but purely neural techniques remain prone to hallucinations.
-Existing approaches to improve accuracy generally rely on post-hoc verification, that fails to constrain unproductive path exploration, or constrained decoding techniques that rely on learned distributions leaning towards correct programs.
+Existing approaches to improve accuracy generally rely on post-hoc verification, that fails to constrain unproductive path exploration, or (FIXME maybe say symbolic fixes for program synthesis approaches) constrained decoding techniques that rely on learned distributions leaning towards correct programs.
 In this work, we study the mistakes LLMs make when synthesizing SQL queries.
 We observe that the mistakes can be grouped into \wip{<x>} error categories, \wip{<y>} of which are amenable to symbolic fixes.
 Importantly, we find that \emph{constrained decoding alone is insufficient} to address \wip{<z>} of these categories.
 Our findings provide interpretable insight into where LLMs fail and suggest promising, neuro-symbolic directions for improving LLM guided program synthesis.
 
+FIXME finetuning would solve some categories?
 % include limitations of constrained decoding 
 
 \end{abstract}
