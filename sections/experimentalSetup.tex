@@ -87,9 +87,41 @@ Other &  &  \\ \hline
 \caption{Error Types and suggested symbolic fixes }
 \end{table*}
 
-\section{Taxonomy}
 
-\subsection{Schema based errors}
+
+\section{Taxonomy}
+In this section, we outline our error taxonomy.
+
+\subsection{Schema-based Errors}
+
+Schema-based errors are defined as errors in which the model fails to correctly reference the database schema. These errors typically involve either selecting an incorrect table or column name, hallucinating schema attributes, or choosing an inappropriate value from the database for a condition. 
+
+\subsubsection{Incorrect Naming}
+These errors are defined as ones where the model generates a lexeme that does not correspond to the correct schema element. For example, the model might predict FIXME instead of the correct column FIXME. 
+
+Symbolic Fix: \textbf{Easy} To address the generation of hallucinated schema values, we propose a symbolic fix \textit{schema-based constrained decoding} in which the first valid schema element that appears in the top-k is chosen. If no valid element is initially predicted, one can force the model to select from the set of valid schema elements, often yielding the correct token. Based on empirical results presented in FIXME, the highest valid schema element is FIXME percentage of the time the correct one. Such a technique would fix FIXME number of errors.
+
+\subsubsection{Incorrect Values}
+
+These errors typically occur in \texttt{WHERE} conditions, where the model selects an incorrect literal value, even though the query structure and schema reference are correct. For instance, given the question:
+
+\begin{quote}
+\emph{``What are the addresses, towns, and county information for all customers who live in the United States?''}
+\end{quote}
+
+the gold query is:
+
+\begin{verbatim}
+SELECT address_line_1, town_city, county
+FROM Customers
+WHERE Country = 'USA';
+\end{verbatim}
+
+A model might predict \texttt{'United'} as the value, which reflects a plausible misunderstanding of the question’s phrasing. Correctly mapping natural language values to the database representation often requires explicitly grounding the question in the schema or the database contents.
+
+Symbolic Fix: \textbf{Moderate} One approach is to align natural language mentions with schema values, using either string similarity or enumeration over the database domain. This allows the model to select or rank candidates that correspond to actual entries in the database, mitigating errors in value selection.
+
+
 
 \subsubsection{Wrong Naming}
 these are errors like wrong column or table name (the gold is present in the schema but the predicted candidate is not)
