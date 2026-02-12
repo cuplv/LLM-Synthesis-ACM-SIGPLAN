@@ -1,0 +1,32 @@
+\begin{tikzpicture}[
+  font=\sffamily,
+  box/.style={rounded corners=12pt, very thick, inner sep=10pt},
+  innerbox/.style={rounded corners=8pt, very thick, inner sep=8pt},
+  arrow/.style={-{Latex}, line width=2.2pt, draw=gray!70},
+  arrowrev/.style={{Latex}-, line width=2.2pt, draw=gray!70},
+]
+
+% --- Left: Validator ---
+\node[box, draw=orange!60!black, fill=orange!30, minimum width=6cm, minimum height=3.5cm] (validator) at (0,0) {};
+\node[innerbox, draw=orange!70!black, fill=orange!70, minimum width=3.7cm, minimum height=1cm] (oracle) at ($(validator.center)+(0,0.75)$) {Oracle};
+\node[font=\sffamily\Large] at ($(validator.center)+(0,-1.15)$) {Validator};
+
+% --- Right: Generator ---
+\node[box, draw=purple!70, fill=purple!30, minimum width=6cm, minimum height=3.5cm] (generator) at (10.2,0) {};
+\node[innerbox, draw=purple!70!black, fill=purple!55, minimum width=3.7cm, minimum height=1.85cm, align=center] (llm) at ($(generator.center)+(0,0.40)$) {LLM\\Lexeme\\Generator};
+\node[font=\sffamily\Large] at ($(generator.center)+(0,-1.15)$) {Generator};
+
+% --- Between arrows ---
+\draw[arrow] ($(validator.east)+(0,0.60)$) -- node[above, font=\sffamily\bfseries] {Query so far} ($(generator.west)+(0,0.60)$);
+\draw[arrowrev] ($(validator.east)+(0,-0.15)$) -- node[below, font=\sffamily\bfseries] {List of Lexemes} ($(generator.west)+(0,-0.15)$);
+
+% --- Top input arrow into Generator ---
+\draw[arrow] ($(generator.north)+(-0.2,1.95)$) -- ($(generator.north)+(-0.2,0.30)$);
+\node[anchor=west, align=left, font=\sffamily\bfseries] at ($(generator.north)+(0.1,1.25)$)
+{Prompt,\\Database Schema,\\Natural Language\\Question};
+
+% --- Bottom output arrow from Validator ---
+\draw[arrow] ($(validator.south)+(0,-0.10)$) -- ($(validator.south)+(0,-1)$);
+\node[font=\sffamily\bfseries] at ($(validator.south)+(0,-1.45)$) {Final Query};
+
+\end{tikzpicture}
