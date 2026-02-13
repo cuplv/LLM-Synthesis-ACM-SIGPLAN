@@ -1,15 +1,16 @@
 \section{Introduction}
 \jedi{Symbolic techniques could be used to address LLM's weakness for program synthesis tasks: LLMs make good guesses on average, but lack correctness guarantees.}
-The advent of Large Language Models (LLMs) has introduced a new way of tackling program synthesis as they are increasingly used as program generators to synthesize working code. In contrast to other program synthesis techniques, LLMs are scalable to larger and more complex programs; however, they struggle with self-correction and can get stuck down an incorrect path that, ultimately, will not yield correct code. Conventional program synthesis techniques use symbolic reasoning to produce correct code but are limited in scalability. 
+The advent of Large Language Models (LLMs) are increasingly used as program generators to synthesize working code. In contrast to other program synthesis techniques, LLMs are scalable to larger and more complex programs; however, they struggle with self-correction and can get stuck down an incorrect path that, ultimately, will not yield correct code. Conventional program synthesis techniques use symbolic reasoning to produce correct code but are limited in scalability. 
+
+
+LLMs are used to write code and synthesize programs - they can be quite good at it but they suffer from hallucinations ... contrast this with other program synthesis techniques
+
+Let's observe the mistakes LLMs do make
+
+We categorize them and see oh wow we can use some symbolic techniques that improve LLM generation 
 
 
 We hypothesize that an integration of insights and techniques from conventional symbolic reasoning techniques can be applied at inference time to guide LLMs to more promising search spaces. 
-
-
-FIXME motivate contributions in the introduction, include problem statement
-
-FIXME error categorization for lexemes not in top-k 
-
 
 To evaluate the validity of our hypothesis, we focus our efforts on tackling a subspace of the program synthesis domain, the text-to-SQL task, as it is easier to verify and validate a query's correctness. The text-to-SQL task is concerned with generating valid SQL queries that correctly answers a natural language question for a given schema or workflow. For example, for the question "How many clubs are there?" for a given schema the corresponding gold SQL query is "SELECT count(*) FROM club" \cite{spider-sql}. We hypothesize that the insights gained from this work will be further applicable in broader code generation tasks. 
 

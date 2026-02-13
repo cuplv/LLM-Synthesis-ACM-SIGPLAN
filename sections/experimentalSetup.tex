@@ -2,12 +2,10 @@
 
 \subsection{Implementation}
 
-The system is implemented in Python using a Supervised Finetuned QWEN-7B model as the Language Model generator with $k=10$ beam widths. It is finetuned on the Spider 1.0 dataset. During fine-tuning, we transform each question in the Spider dataset into a natural language prompt and translate each target query to our DSL (TSQL). Specific prompting details are provided in \todo{FIXME Appendix}. We consider a lexeme to be complete if the next generated token is whitespace.
+The system is implemented in Python using open source models FIXME and FIXME. We consider a lexeme to be complete if the next generated token is whitespace.
 
 \subsection{Results}
-Our empirical evaluation results are presented in Table \ref{eval1}. Across 30 queries taken from the test split of the Spider 1.0 database, the LLM generated lexemes resulting in 112 mistakes. Out of these mistakes, 70 were found in the top-k predictions. This indicates that the LLM was in the right search space and conveys the need for the integration for constraint based decoding or beam search guidance. This result also shows the promise for LLMs to be used in program synthesis as $62.5\%$ of the time, the LLM generates the correct lexeme and is the right program space. The integration of symbolic techniques could provide insight to the LLM to re-rank and re-prioritize the correct lexemes. 
-
-The 42 mistakenly generated lexemes that were not found in the top-k indicate the gap between the LLMs understanding and the correct search space. The integration of simple purely symbolic fixes would be most useful in guiding the program synthesis by providing formal verification and corrections. 
+Our empirical evaluation results are presented in Table FIXME.
 
 % \begin{table}[]
 % \begin{tabular}{rr}
@@ -29,162 +27,74 @@ The 42 mistakenly generated lexemes that were not found in the top-k indicate th
 % \end{table}
 
 
-\begin{table}[]
-\begin{tabular}{l l}
-\hline
-Total Number of Queries & 30 \\
-Total Number of Mistakes & 200 \\
-Gold Lexeme Found in Top-k & 77 \\
-Gold Lexeme Not Found in Top-k & 123 \\
-\hline
-\end{tabular}
-\begin{tabular}{l l}
-\hline
-Total Not Found errors & 117 \\
-Gold was SQL keyword & 16 \\
-Gold was NOT SQL keyword & 101 \\
-\hline
-\end{tabular}
-
-\caption{This table shows the empirical evaluation results for SQL generation. Mostly schema and aggregation errors. For the finetuned model eglym/DR-TEXT2SQL-CodeLlama2-7B }
-\label{eval1}
-\end{table}
-
-\begin{table}[]
-\begin{tabular}{l l}
-\hline
-Total Number of Queries & 30 \\
-Total Number of Mistakes & 276 \\
+% \begin{table}[]
+% \begin{tabular}{l l}
+% \hline
+% Total Number of Queries & 30 \\
+% Total Number of Mistakes & 200 \\
 % Gold Lexeme Found in Top-k & 77 \\
 % Gold Lexeme Not Found in Top-k & 123 \\
+% \hline
+% \end{tabular}
+% \begin{tabular}{l l}
+% \hline
+% Total Not Found errors & 117 \\
+% Gold was SQL keyword & 16 \\
+% Gold was NOT SQL keyword & 101 \\
+% \hline
+% \end{tabular}
 
-\hline
-\end{tabular}
-\begin{tabular}{l l}
-\hline
-Total Not Found errors & 234 \\
-Gold was SQL keyword & 51 \\
-Gold was NOT SQL keyword & 183 \\
-\hline
-\end{tabular}
+% \caption{This table shows the empirical evaluation results for SQL generation. Mostly schema and aggregation errors. For the finetuned model eglym/DR-TEXT2SQL-CodeLlama2-7B }
+% \label{eval1}
+% \end{table}
 
-\caption{Results for Qwen2.5-Coder-7B }
-\label{eval1}
-\end{table}
+% \begin{table}[]
+% \begin{tabular}{l l}
+% \hline
+% Total Number of Queries & 30 \\
+% Total Number of Mistakes & 276 \\
+% % Gold Lexeme Found in Top-k & 77 \\
+% % Gold Lexeme Not Found in Top-k & 123 \\
 
-SFT model - XiYanSQL-QwenCoder-7B-2504
+% \hline
+% \end{tabular}
+% \begin{tabular}{l l}
+% \hline
+% Total Not Found errors & 234 \\
+% Gold was SQL keyword & 51 \\
+% Gold was NOT SQL keyword & 183 \\
+% \hline
+% \end{tabular}
 
-\begin{table*}[]
-\begin{tabular}{rrl}
-\hline
-\multicolumn{1}{l}{Type of Error} & \multicolumn{1}{l}{Rough Distribution} & Suggested Symbolic Fix \\ \hline
-\begin{tabular}[c]{@{}r@{}}Schema Mismatch\\ (also join on wrong column \\ errors could also go here)\end{tabular} & 50-70\% of errors & \begin{tabular}[c]{@{}l@{}}top-k: schema based decoding\\ usually the highest ranked schema element is gold\\ not in top-k: have the LLM rank schema elements\end{tabular} \\ \hline
-Structural & 10-20\% & \begin{tabular}[c]{@{}l@{}}easy: end of a query determine if you need a LIMIT \\ medium: \\ hard: catch all\end{tabular} \\ \hline
-WHERE &  &  \\ \hline
-Aggregates &  &  \\ \hline
-Other &  &  \\ \hline
-\end{tabular}
-\caption{Error Types and suggested symbolic fixes }
-\end{table*}
+% \caption{Results for Qwen2.5-Coder-7B }
+% \label{eval1}
+% \end{table}
 
+% SFT model - XiYanSQL-QwenCoder-7B-2504
 
+% \begin{table*}[]
+% \begin{tabular}{rrl}
+% \hline
+% \multicolumn{1}{l}{Type of Error} & \multicolumn{1}{l}{Rough Distribution} & Suggested Symbolic Fix \\ \hline
+% \begin{tabular}[c]{@{}r@{}}Schema Mismatch\\ (also join on wrong column \\ errors could also go here)\end{tabular} & 50-70\% of errors & \begin{tabular}[c]{@{}l@{}}top-k: schema based decoding\\ usually the highest ranked schema element is gold\\ not in top-k: have the LLM rank schema elements\end{tabular} \\ \hline
+% Structural & 10-20\% & \begin{tabular}[c]{@{}l@{}}easy: end of a query determine if you need a LIMIT \\ medium: \\ hard: catch all\end{tabular} \\ \hline
+% WHERE &  &  \\ \hline
+% Aggregates &  &  \\ \hline
+% Other &  &  \\ \hline
+% \end{tabular}
+% \caption{Error Types and suggested symbolic fixes }
+% \end{table*}
 
-\section{Taxonomy}
-In this section, we outline our error taxonomy.
-
-\subsection{Schema-based Errors}
-
-Schema-based errors are defined as errors in which the model fails to correctly reference the database schema. These errors typically involve either selecting an incorrect table or column name, hallucinating schema attributes, or choosing an inappropriate value from the database for a condition. 
-
-\subsubsection{Incorrect Naming}
-These errors are defined as ones where the model generates a lexeme that does not correspond to the correct schema element. For example, the model might predict FIXME instead of the correct column FIXME. 
-
-Symbolic Fix: \textbf{Easy} To address the generation of hallucinated schema values, we propose a symbolic fix \textit{schema-based constrained decoding} in which the first valid schema element that appears in the top-k is chosen. If no valid element is initially predicted, one can force the model to select from the set of valid schema elements, often yielding the correct token. Based on empirical results presented in FIXME, the highest valid schema element is FIXME percentage of the time the correct one. Such a technique would fix FIXME number of errors.
-
-\subsubsection{Incorrect Values}
-
-These errors typically occur in \texttt{WHERE} conditions, where the model selects an incorrect literal value, even though the query structure and schema reference are correct. For instance, given the question:
-
-\begin{quote}
-\emph{``What are the addresses, towns, and county information for all customers who live in the United States?''}
-\end{quote}
-
-the gold query is:
-
-\begin{verbatim}
-SELECT address_line_1, town_city, county
-FROM Customers
-WHERE Country = 'USA';
-\end{verbatim}
-
-A model might predict \texttt{'United'} as the value, which reflects a plausible misunderstanding of the question’s phrasing. Correctly mapping natural language values to the database representation often requires explicitly grounding the question in the schema or the database contents.
-
-Symbolic Fix: \textbf{Moderate} One approach is to align natural language mentions with schema values, using either string similarity or enumeration over the database domain. This allows the model to select or rank candidates that correspond to actual entries in the database, mitigating errors in value selection.
-
-
-
-\subsubsection{Wrong Naming}
-these are errors like wrong column or table name (the gold is present in the schema but the predicted candidate is not)
-
-\textbf{Symbolic fix}: Easy- if valid schema element in top-k then you use a schema based constrained decoding to select (usually the gold is the top most). If there is no valid schema element, have the LLM pick from or rank valid schema elements
-
-\subsubsection{Wrong Values}
-
-For where conditions - the wrong value is selected for example - "What are the addresses, towns, and county information for all customers who live in the United States?" but the gold query is
-
-\begin{verbatim}
-   SELECT $address_line_1$ ,  $town_city$ ,  
-   county FROM Customers WHERE Country  =  'USA'  
-\end{verbatim}
-
-The LLM predicts \textbf{'United } which makes sense given the phrasing of the question but involves parsing out all the values of the schema to "infer" that "United States" maps to "USA"
-
-\textbf{Symbolic Fix}: Medium - We may be able to infer the correct condition but we need a way to map that question to the actual values in the database 
-
-\subsection{Structural based errors}
-These are elements that are a violation of the expected SQL structure (ie clause based errors).
-
-\subsubsection{LIMIT errors}
-The LLM doesn't predict a LIMIT at the end of a full query. 
-
-\textbf{Symbolic Fix}: Easy - we basically just look at the output and if it matches except the number of rows we just add a LIMIT
-
-\subsubsection{Everything else}
-
-\subsection{Where Conditions}
-
-\subsubsection{Wrong operator}
-wrong operator (sometimes the LLM will correctly predict bigger/ greater but not $>$
-
-Symbolic fix: easy for wrong operator - if LLM predicts bigger then just replace it with $>$ 
-
-upon further inspection there aren't many of these that can be easily fixable (only about 2 were bigger/greater instead of $>$) but I'll leave this category in for now
-
-\subsection{Aggregate Errors}
-
-Wrong aggregate functions like COUNT, MAX, etc
-
-\textbf{Symbolic fix}: hard
-
-\subsection{Other}
-
-catch all
-
-includes syntactically/ semantically "similar" ie they look right....but aren't
-
-\textbf{Symbolic fix}: hard
-
-
-\begin{table*}[]
-\begin{tabular}{|l|l|l|l|}
-\hline
- & \begin{tabular}[c]{@{}l@{}}XGenerationLab/\\ XiYanSQL-QwenCoder-14B-2504\end{tabular} & \begin{tabular}[c]{@{}l@{}}XGenerationLab/\\ XiYanSQL-QwenCoder-7B-2504\end{tabular} & \begin{tabular}[c]{@{}l@{}}eglym/\\ DR-TEXT2SQL-CodeLlama2-7B\end{tabular} \\ \hline
-Schema (includes join) & 214 & 211 & 206 \\ \hline
-Structural & 31 & 45 & 32 \\ \hline
-\begin{tabular}[c]{@{}l@{}}Where \\ (note these \\ numbers are inflated)\end{tabular} & 22 & 24 & 19 \\ \hline
-Aggregate & 20 & 21 & 11 \\ \hline
-Other & 30 & 17 & 17 \\ \hline
-Total Errors & 318 & 318 & 285 \\ \hline
-\end{tabular}
-\caption{Different SFT models and general error distributions over 51 queries.}
-\end{table*}
+% \begin{table*}[]
+% \begin{tabular}{|l|l|l|l|}
+% \hline
+%  & \begin{tabular}[c]{@{}l@{}}XGenerationLab/\\ XiYanSQL-QwenCoder-14B-2504\end{tabular} & \begin{tabular}[c]{@{}l@{}}XGenerationLab/\\ XiYanSQL-QwenCoder-7B-2504\end{tabular} & \begin{tabular}[c]{@{}l@{}}eglym/\\ DR-TEXT2SQL-CodeLlama2-7B\end{tabular} \\ \hline
+% Schema (includes join) & 214 & 211 & 206 \\ \hline
+% Structural & 31 & 45 & 32 \\ \hline
+% \begin{tabular}[c]{@{}l@{}}Where \\ (note these \\ numbers are inflated)\end{tabular} & 22 & 24 & 19 \\ \hline
+% Aggregate & 20 & 21 & 11 \\ \hline
+% Other & 30 & 17 & 17 \\ \hline
+% Total Errors & 318 & 318 & 285 \\ \hline
+% \end{tabular}
+% \caption{Different SFT models and general error distributions over 51 queries.}
+% \end{table*}

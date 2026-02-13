@@ -123,18 +123,16 @@ fourth@example.com
 
 \begin{abstract}
 
-Large Language Models (LLMs) exhibit strong performance for program synthesis tasks including text-to-SQL, up to 86.6\% accuracy on the Spider 1.0 benchmark, but purely neural techniques remain prone to hallucinations.
-Existing symbolic approaches to improve accuracy on program synthesis tasks generally rely on post-hoc verification, which fails to constrain unproductive path exploration, or constrained decoding techniques that rely on learned distributions leaning towards correct programs.
-In this work, we study the mistakes LLMs make when synthesizing SQL queries.
-We observe that errors can be grouped into five error categories, two of which can be addressed by simple symbolic fixes.
-Importantly, we find that \emph{constrained decoding alone is insufficient} to address \wip{<z>} of these categories.
+Large Language Models (LLMs) exhibit strong performance for program synthesis tasks including text-to-SQL, up to 86.6\% accuracy on the Spider 1.0 benchmark. The top-performing methods bridge the semantic gap between natural language and SQL by using prompt engineering, fine-tuning, or in-context learning techniques; however, these purely neural techniques remain prone to hallucinations.
+Existing symbolic approaches to improve accuracy on program synthesis tasks generally rely on post-hoc verification, which fails to constrain unproductive path exploration, or constrained decoding techniques that rely on the underlying distribution of the model.
+The effectiveness of symbolic guidance under complex queries and the semantic ambiguity inherent in text-to-SQL benchmarks, however, remains unclear.
+In this work, we study the \emph{``ground truth''} errors made by LLMs in the text-to-SQL task looking at both fine-tuned models and general-purpose models optimized for code generation.
+We observe that errors can be grouped into five error categories, two of which are amenable to simple symbolic fixes.
+Importantly, we find that for many queries, correct predictions do not rank near the top of the LLMs likely predictions, implying that \emph{constrained decoding alone is insufficient} to guide synthesis on hard problems.
 Our findings provide interpretable insight into where LLMs fail and suggest promising, neuro-symbolic directions for improving LLM guided program synthesis.
 
-FIXME finetuning would solve some categories?
-% include limitations of constrained decoding 
-
 % Large Language Models (LLMs) have exhibited strong performance on program synthesis tasks such as text-to-SQL, achieving up to $\sim$87\% accuracy on state-of-the-art challenges such as the Yale Semantic Parsing (Spider). However, most of the top-performing methods bridge the semantic gap between natural language and SQL using clever prompt engineering, fine-tuning, or in-context learning techniques.
-% All these methods rely on the LLM to generate the entire SQL query and then perform a post-hoc verification step to check the validity of the generated query. Logically, this approach does not constrain the LLM from generating paths that lead to ``semantic deadends''. Constrained decoding helps alleviate this issue by checking within a next tokens entire program space if it can find a valid continuation, however, the effectiveness of this approach under complex queries and semantic ambiguity is questionable. To this end, we observe that the so called \emph{``ground truth'' mistakes that LLMs make using both a fine-tuned and prompt-engineered model with constrained decoding prove insufficient} to address \wip{<z>} of these categories.
+% All these methods rely on the LLM to generate the entire SQL query and then perform a post-hoc verification step to check the validity of the generated query. Logically, this approach does not constrain the LLM from generating paths that lead to ``semantic deadends''. Further, constrained decoding helps alleviate this issue by checking if it can find a valid continuation within the program space of the next predicted token. However, the effectiveness of this approach under complex queries and semantic ambiguity such as in SQL is questionable. To this end, we observe that the so called \emph{``ground truth'' mistakes that LLMs make using both a fine-tuned and prompt-engineered model with constrained decoding prove insufficient} to address \wip{<z>} of these categories.
 % Our findings provide interpretable insight into where LLMs fail and suggest promising, neuro-symbolic directions for improving LLM guided program synthesis.
 
 \end{abstract}
@@ -158,6 +156,8 @@ FIXME finetuning would solve some categories?
 \input{sections/approach}
 
 \input{sections/experimentalSetup}
+
+\input{sections/taxonomy}
 
 \input{sections/conclusion}
 
