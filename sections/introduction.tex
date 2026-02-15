@@ -1,25 +1,28 @@
 \section{Introduction}
-\jedi{Symbolic techniques could be used to address LLM's weakness for program synthesis tasks: LLMs make good guesses on average, but lack correctness guarantees.}
-The advent of Large Language Models (LLMs) are increasingly used as program generators to synthesize working code. In contrast to other program synthesis techniques, LLMs are scalable to larger and more complex programs; however, they struggle with self-correction and can get stuck down an incorrect path that, ultimately, will not yield correct code. Conventional program synthesis techniques use symbolic reasoning to produce correct code but are limited in scalability. 
+Problem statement and motivation: LLMs are used to write code and synthesize programs - they can be quite good at it but they suffer from hallucinations ... contrast this with other program synthesis techniques 
 
+Novelty/ Motivate our contribution: Existing taxonomies only consider full queries but let's look at the mistakes made at the lexeme level 
 
-LLMs are used to write code and synthesize programs - they can be quite good at it but they suffer from hallucinations ... contrast this with other program synthesis techniques
+We categorize them and see oh wow we can use some symbolic techniques that improve LLM generation
 
-Let's observe the mistakes LLMs do make
-
-We categorize them and see oh wow we can use some symbolic techniques that improve LLM generation 
-
-
-We hypothesize that an integration of insights and techniques from conventional symbolic reasoning techniques can be applied at inference time to guide LLMs to more promising search spaces. 
-
-To evaluate the validity of our hypothesis, we focus our efforts on tackling a subspace of the program synthesis domain, the text-to-SQL task, as it is easier to verify and validate a query's correctness. The text-to-SQL task is concerned with generating valid SQL queries that correctly answers a natural language question for a given schema or workflow. For example, for the question "How many clubs are there?" for a given schema the corresponding gold SQL query is "SELECT count(*) FROM club" \cite{spider-sql}. We hypothesize that the insights gained from this work will be further applicable in broader code generation tasks. 
-
-Our contributions are as follows:
+Contributions:
 \begin{itemize}
-    \item We present a taxonomy of error categorization for LLM mistakes during decoding. 
+    \item We present a hierarchical taxonomy of error categorization for LLM mistakes during decoding. 
     \item We show that two mistake categories are amenable to a handful of symbolic repair techniques.
-    \item We show that the combination of constrained decoding and symbolic repair techniques could help fix FIXME mistakes an LLM makes. 
+    \item We show that the combination of constrained decoding and symbolic repair techniques could help fix FIXME mistakes an LLM makes.
+
+    % We show that constrained decoding alone does not reduce LLM search space enough to meaningfully improve program synthesis for realistic SQL queries.
+
 \end{itemize}
+
+FIXME: look into GPUs add another A100, look into H100, email Mark Zhao and ask about GPUs (cc Gowtham), clone VM and run second model
+
+% \jedi{Symbolic techniques could be used to address LLM's weakness for program synthesis tasks: LLMs make good guesses on average, but lack correctness guarantees.}
+% The advent of Large Language Models (LLMs) are increasingly used as program generators to synthesize working code. In contrast to other program synthesis techniques, LLMs are scalable to larger and more complex programs; however, they struggle with self-correction and can get stuck down an incorrect path that, ultimately, will not yield correct code. Conventional program synthesis techniques use symbolic reasoning to produce correct code but are limited in scalability. 
+
+% We hypothesize that an integration of insights and techniques from conventional symbolic reasoning techniques can be applied at inference time to guide LLMs to more promising search spaces. 
+
+% To evaluate the validity of our hypothesis, we focus our efforts on tackling a subspace of the program synthesis domain, the text-to-SQL task, as it is easier to verify and validate a query's correctness. The text-to-SQL task is concerned with generating valid SQL queries that correctly answers a natural language question for a given schema or workflow. For example, for the question "How many clubs are there?" for a given schema the corresponding gold SQL query is "SELECT count(*) FROM club" \cite{spider-sql}. We hypothesize that the insights gained from this work will be further applicable in broader code generation tasks. 
 
 
 % We perform supervised finetuning on an LLM (Qwen-7B?) on the Spider 1.0 dataset using a DSL (TSQL) for easier evaluation and give the LLM a database schema and natural language question and prompt the LLM to generate a valid TSQL query that answers the NL question. Using the SFT model, we generate a candidate query lexeme by lexeme. As the LLM is generating lexemes, we compare each with the gold lexeme. If there is a mismatch, we correct the LLM's behavior by providing the generator with the gold lexeme and continue generating lexemes. We observe that the SFT model produces the correct query FIXME (85) percent of the time; however, the inclusion of symbolic techniques would increase the percentage of correctly generated queries to FIXME (95) percent.
