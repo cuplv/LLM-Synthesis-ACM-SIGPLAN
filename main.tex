@@ -138,7 +138,7 @@ Our findings provide interpretable insight into where LLMs fail and suggest prom
 \begin{figure*}
     \centering
     \input{figures/overview.tikz}
-    \caption{The overall system architecture. The Language Model Generator is prompted to generate a TSQL query given a database schema and natural language question. The generator returns a list of lexemes to the Validator which incrementally validates the most probable lexeme against the gold one and corrects the generator if there is a mismatch.}
+    \caption{The overall system architecture. The Language Model Generator is prompted to generate a SQL query given a database schema and natural language question. The generator returns a list of lexemes to the Validator which incrementally validates the most probable lexeme against the gold one and corrects the generator if there is a mismatch.}
     \label{fig:overview}
 \end{figure*}
 
@@ -162,8 +162,6 @@ Our findings provide interpretable insight into where LLMs fail and suggest prom
 
 %% The file kr.bst is a bibliography style file for BibTeX 0.99c
 \bibliographystyle{kr}
-\bibliography{sample-base}
+\bibliography{bibliography}
 
 \end{document}
-
-

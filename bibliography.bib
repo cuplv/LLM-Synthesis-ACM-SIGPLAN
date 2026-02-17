@@ -64,13 +64,13 @@
 }
 
 @misc{yang2024qwen2technicalreport,
-      title={Qwen2 Technical Report}, 
+      title={Qwen2 Technical Report},
       author={An Yang and Baosong Yang and Binyuan Hui and Bo Zheng and Bowen Yu and Chang Zhou and Chengpeng Li and Chengyuan Li and Dayiheng Liu and Fei Huang and Guanting Dong and Haoran Wei and Huan Lin and Jialong Tang and Jialin Wang and Jian Yang and Jianhong Tu and Jianwei Zhang and Jianxin Ma and Jianxin Yang and Jin Xu and Jingren Zhou and Jinze Bai and Jinzheng He and Junyang Lin and Kai Dang and Keming Lu and Keqin Chen and Kexin Yang and Mei Li and Mingfeng Xue and Na Ni and Pei Zhang and Peng Wang and Ru Peng and Rui Men and Ruize Gao and Runji Lin and Shijie Wang and Shuai Bai and Sinan Tan and Tianhang Zhu and Tianhao Li and Tianyu Liu and Wenbin Ge and Xiaodong Deng and Xiaohuan Zhou and Xingzhang Ren and Xinyu Zhang and Xipin Wei and Xuancheng Ren and Xuejing Liu and Yang Fan and Yang Yao and Yichang Zhang and Yu Wan and Yunfei Chu and Yuqiong Liu and Zeyu Cui and Zhenru Zhang and Zhifang Guo and Zhihao Fan},
       year={2024},
       eprint={2407.10671},
       archivePrefix={arXiv},
       primaryClass={cs.CL},
-      url={https://arxiv.org/abs/2407.10671}, 
+      url={https://arxiv.org/abs/2407.10671},
 }
 
 @inproceedings{llm-enumerative-search,
@@ -169,4 +169,33 @@
   eprint       = {2309.16609},
   archiveprefix = {arXiv},
   primaryclass = {cs.CL}
+}
+
+@misc{qu2024generationalignitnovel,
+      title={Before Generation, Align it! A Novel and Effective Strategy for Mitigating Hallucinations in Text-to-SQL Generation},
+      author={Ge Qu and Jinyang Li and Bowen Li and Bowen Qin and Nan Huo and Chenhao Ma and Reynold Cheng},
+      year={2024},
+      eprint={2405.15307},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2405.15307},
+}
+
+@article{chopchop,
+author = {Nagy, Shaan and Zhou, Timothy and Polikarpova, Nadia and D'Antoni, Loris},
+title = {ChopChop: A Programmable Framework for Semantically Constraining the Output of Language Models},
+year = {2026},
+issue_date = {January 2026},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {10},
+number = {POPL},
+url = {https://doi.org/10.1145/3776708},
+doi = {10.1145/3776708},
+abstract = {Language models (LMs) can generate code but cannot guarantee its correctness—often producing outputs that violate type safety, program invariants, or other semantic properties. Constrained decoding offers a solution by restricting generation to only produce programs that satisfy user-defined properties. However, existing methods are either limited to syntactic constraints or rely on brittle, ad hoc encodings of semantic properties over token sequences rather than program structure.    We present ChopChop, the first programmable framework for constraining the output of LMs with respect to semantic properties. ChopChop introduces a principled way to construct constrained decoders based on analyzing the space of programs a prefix represents. It formulates this analysis as a realizability problem which is solved via coinduction, connecting token-level generation with structural reasoning over programs. We demonstrate ChopChop's generality by using it to enforce (1) equivalence to a reference program and (2) type safety. Across a range of models and tasks, ChopChop improves success rates while maintaining practical decoding latency.},
+journal = {Proc. ACM Program. Lang.},
+month = jan,
+articleno = {66},
+numpages = {28},
+keywords = {Coinduction, LLM, Semantic Constrained Decoding}
 }
