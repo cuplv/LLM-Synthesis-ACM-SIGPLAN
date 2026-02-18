@@ -1,11 +1,14 @@
 \section{Experimental Setup}
 
 \subsection{Implementation}
+Our system is implemented in Python and leverages open-source LLMs hosted on HuggingFace for text-to-SQL generation, including XiYanSQL-QwenCoder-7B-2504, deepseek-coder-6.7b-instruct, and XiYanSQL-QwenCoder-14B-2504. Models are loaded in 4-bit quantized mode when possible to reduce GPU memory usage, and generation is performed on A100 NVIDIA GPUs with 40GB VRAM for XiYanSQL-QwenCoder-7B-2504, deepseek-coder-6.7b-instruct and 80GB for XiYanSQL-QwenCoder-14B-2504 with automatic device mapping and offloading for larger models.
 
-The system is implemented in Python using open source models FIXME and FIXME. We consider a lexeme to be complete if the next generated token is whitespace.
+\subsection{Model Choice}
+Finetuned models XiYanSQL-QwenCoder-7B-2504 and XiYanSQL-QwenCoder-14B-2504 were chosen due to their high performance on the Spider dataset ~\cite{xiYan}. We also chose a general purpose model deepseek-coder-6.7b-instruct.
 
-\subsection{Results}
-Our empirical evaluation results are presented in Table FIXME.
+\subsection{Dataset}
+From the test split of the Spider 1.0 dataset ~\cite{spider-sql}, we evaluate the queries deemed hard and extra as we are most interested in errors that arise from complex queries.
+
 
 % \begin{table}[]
 % \begin{tabular}{rr}
@@ -13,7 +16,7 @@ Our empirical evaluation results are presented in Table FIXME.
 % Total Number of Queries  & 30                        \\
 % Total Number of Mistakes & 112                       \\
 % Gold Lexeme Found in Top-k           & 70                        \\
-% Gold Lexeme Not Found in Top-k       & 42                                          
+% Gold Lexeme Not Found in Top-k       & 42
 % \end{tabular}
 % \begin{tabular}{l l}
 % \hline

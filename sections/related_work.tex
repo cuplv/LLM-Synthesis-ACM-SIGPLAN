@@ -1,35 +1,39 @@
 \section{Related Work}
-Prior SQL synthesis using classic program synthesis approaches
 
-Probablistic-symbolic methods
+\jedi{Text-to-SQL is a task in which SQL queries are generated from NL questions, and many high performing methods use techniques such as prompt engineering and in-context learning.}
+Text-to-SQL is a program synthesis task concerned with SQL generation for natural language questions.
+Recent research has focused on leveraging Large Language Models (LLMs) for this task and have performed well empirically, reaching test suite accuracies of up to 86.6\%~\cite{dail-sql} against the Spider 1.0 dataset~\cite{spider-sql}. Many of the methods that top the Spider 1.0 leaderboard involve prompt engineering and in-context learning strategies. These methods often treat LLMs as black box synthesizers but are able to scale to complex queries.
 
-Current SOTA for SQL synthesis
-
-Constrained Decoding
-
-
-Prior research has explored SQL synthesis using classic approaches, such as enumerative search, to produce correct queries~\cite{scythe,patsql}.
+\jedi{Traditional program synthesis techniques provide guarantees, but don't scale.}
+Before the advent of LLMs, symbolic approaches to SQL synthesis explored enumerative search and program sketching to guarantee correct query generation~\cite{scythe,patsql}.
 These works focus on pruning the search space either through additional information provided by the user, such as the constants that are allowed to appear in a query~\cite{scythe,patsql}, or through pruning unproductive paths~\cite{scythe,patsql}.
-They often include soundness and bounded completeness guarantees, but struggle to scale to larger, more complex queries.
+These traditional methods often include soundness and bounded completeness guarantees, but struggle to scale to larger, more complex queries.
 
-Other research instead foregoes guarantees for empirical results.
-Many recent works focus on leveraging Large Language Models (LLMs) to produce SQL queries~\cite{dail-sql}.
-They have performed well empirically, reaching test suite accuracies of up to 86.6\%~\cite{dail-sql} against the Spider SQL dataset~\cite{spider-sql}. FIXME MiniSeek 91.2 but no reference
+\jedi{Recent work to aid LLM synthesis focuses on enforcing constraints at decoding time.}
+Recent work has focused on neuro-symbolic approaches to bridge the scalability of LLM aided program generation and more symbolic approaches. Constrained decoding methods aim to enforce certain properties during the decoding process. Techniques such as PICARD ~\cite{scholak-etal-2021-picard} enforce SQL-specific constraints during token generation. Other methods can enforce semantic constraints ~\cite{chopchop} or type safety ~\cite{typeConstrainedDecoding} more generally in program synthesis. Constrained decoding approaches improve syntactic and semantic correctness but depend on the correct token appearing within the model’s top-k predictions based on its learned distribution.
 
-Some prior works build off the strengths of both approaches, using probabilistic models to guide search while verifying the correctness of produced candidates.
-These prior works either require white-box access to probabilistic models~\cite{probabilistic-model-synthesis,ml-pbe}, or treat models as program candidate oracles~\cite{llm-cegis}, or apply a hybrid approach that combines both methods~\cite{llm-enumerative-search}.
-However, all these works use probabilistic models to generate full candidate programs before evaluating them.
-This leaves a large search space for the probabilistic model to categorize.
+\jedi{There are error taxonomies for text-to-SQL, but they consider fully generated queries.}
+Prior work has been done to analyze errors for text-to-SQL, but they are concerned with categorizing fully generated queries~\cite{qu2024generationalignitnovel,shen2025studyincontextlearningbasedtexttosqlerrors}. These taxonomies do not capture the lexeme-level mistakes that arise during the decoding process.
 
-In contrast, we observe that LLMs are inherently next token predictors, rather than full sequence predictors.
-We leverage this insight to guide LLM search using lexeme level guidance which provides early guidance for the LLM to avoid unproductive search paths.
+\jedi{Our work looks at the lexeme level efficacy of constrained decoding and symbolic fixes.}
+Our work addresses the gap of understanding the effectiveness of constrained decoding by analyzing lexeme-level errors made by LLMs for text-to-SQL. By categorizing incremental mistakes and identifying those amenable to symbolic repair, we provide insight into where constrained decoding can succeed and where simple symbolic fixes can aid LLM guided program synthesis.
 
-% With regards to ChopChop, A. our insights are complimentary to ChopChop 
+% Some prior works build off the strengths of both approaches, using probabilistic models to guide search while verifying the correctness of produced candidates.
+% These prior works either require white-box access to probabilistic models~\cite{probabilistic-model-synthesis,ml-pbe}, or treat models as program candidate oracles~\cite{llm-cegis}, or apply a hybrid approach that combines both methods~\cite{llm-enumerative-search}.
+% However, all these works use probabilistic models to generate full candidate programs before evaluating them.
+% This leaves a large search space for the probabilistic model to categorize.
+
+% Prior SQL synthesis using classic program synthesis approaches
+
+% Probablistic-symbolic methods
+
+% Current SOTA for SQL synthesis
+
+% Constrained Decoding
+
+% With regards to ChopChop, A. our insights are complimentary to ChopChop
 % B. they observed that once an LLM made a mistake...it was too late to go back and fix it...."The type system implemented in our semantic pruner will prevent
 % the assignment to divisors, but it will still allow line 2." so LLM commit to its solution so it is useful to mitigate these types of errors before it is too late
 % C. constrained decoding is known to skew the underlying distribution
 % D. The pruners in ChopChop seem a bit unrealistic to create but I guess this is theoretical
 % So ChopChop enforces semantic validity when generating queries...in theory...but this requires you to create pruners...and you still run into the issue of an LLM makes a mistake and you reach a point where its too late to correct it...so other symbolic fixes? I mean you could still use this...ChopChop still wouldn't work because the candidates aren't in top-k...you would need to have the model learn some more patterns/ clause constraints
-
-
-

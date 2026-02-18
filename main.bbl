@@ -19,44 +19,18 @@ Gao, D.; Wang, H.; Li, Y.; Sun, X.; Qian, Y.; Ding, B.; and Zhou, J.
   evaluation.
 \newblock {\em Proc. VLDB Endow.} 17(5):1132–1145.
 
-\bibitem[\protect\citeauthoryear{Jha \bgroup et al\mbox.\egroup
-  }{2023}]{llm-cegis}
-Jha, S.~K.; Jha, S.; Lincoln, P.; Bastian, N.~D.; Velasquez, A.; Ewetz, R.; and
-  Neema, S.
-\newblock 2023.
-\newblock Counterexample guided inductive synthesis using large language models
-  and satisfiability solving.
-\newblock In {\em MILCOM 2023 - 2023 IEEE Military Communications Conference
-  (MILCOM)},  944--949.
+\bibitem[\protect\citeauthoryear{Liu \bgroup et al\mbox.\egroup }{2025}]{xiYan}
+Liu, Y.; Zhu, Y.; Gao, Y.; Luo, Z.; Li, X.; Shi, X.; Hong, Y.; Gao, J.; Li, Y.;
+  Ding, B.; and Zhou, J.
+\newblock 2025.
+\newblock Xiyan-sql: A novel multi-generator framework for text-to-sql.
 
-\bibitem[\protect\citeauthoryear{Lee \bgroup et al\mbox.\egroup
-  }{2018}]{probabilistic-model-synthesis}
-Lee, W.; Heo, K.; Alur, R.; and Naik, M.
-\newblock 2018.
-\newblock Accelerating search-based program synthesis using learned
-  probabilistic models.
-\newblock In {\em Proceedings of the 39th ACM SIGPLAN Conference on Programming
-  Language Design and Implementation}, PLDI 2018,  436–449.
-\newblock New York, NY, USA: Association for Computing Machinery.
-
-\bibitem[\protect\citeauthoryear{Li, Parsert, and
-  Polgreen}{2024}]{llm-enumerative-search}
-Li, Y.; Parsert, J.; and Polgreen, E.
-\newblock 2024.
-\newblock Guiding enumerative program synthesis with large language models.
-\newblock In Gurfinkel, A., and Ganesh, V., eds., {\em Computer Aided
-  Verification},  280--301.
-\newblock Cham: Springer Nature Switzerland.
-
-\bibitem[\protect\citeauthoryear{Menon \bgroup et al\mbox.\egroup
-  }{2013}]{ml-pbe}
-Menon, A.~K.; Tamuz, O.; Gulwani, S.; Lampson, B.; and Kalai, A.~T.
-\newblock 2013.
-\newblock A machine learning framework for programming by example.
-\newblock In {\em Proceedings of the 30th International Conference on
-  International Conference on Machine Learning - Volume 28}, ICML'13,
-  I–187–I–195.
-\newblock JMLR.org.
+\bibitem[\protect\citeauthoryear{M\"{u}ndler \bgroup et al\mbox.\egroup
+  }{2025}]{typeConstrainedDecoding}
+M\"{u}ndler, N.; He, J.; Wang, H.; Sen, K.; Song, D.; and Vechev, M.
+\newblock 2025.
+\newblock Type-constrained code generation with language models.
+\newblock {\em Proc. ACM Program. Lang.} 9(PLDI).
 
 \bibitem[\protect\citeauthoryear{Nagy \bgroup et al\mbox.\egroup
   }{2026}]{chopchop}
@@ -72,6 +46,25 @@ Qu, G.; Li, J.; Li, B.; Qin, B.; Huo, N.; Ma, C.; and Cheng, R.
 \newblock 2024.
 \newblock Before generation, align it! a novel and effective strategy for
   mitigating hallucinations in text-to-sql generation.
+
+\bibitem[\protect\citeauthoryear{Scholak, Schucher, and
+  Bahdanau}{2021}]{scholak-etal-2021-picard}
+Scholak, T.; Schucher, N.; and Bahdanau, D.
+\newblock 2021.
+\newblock {PICARD}: Parsing incrementally for constrained auto-regressive
+  decoding from language models.
+\newblock In Moens, M.-F.; Huang, X.; Specia, L.; and Yih, S. W.-t., eds., {\em
+  Proceedings of the 2021 Conference on Empirical Methods in Natural Language
+  Processing},  9895--9901.
+\newblock Online and Punta Cana, Dominican Republic: Association for
+  Computational Linguistics.
+
+\bibitem[\protect\citeauthoryear{Shen \bgroup et al\mbox.\egroup
+  }{2025}]{shen2025studyincontextlearningbasedtexttosqlerrors}
+Shen, J.; Wan, C.; Qiao, R.; Zou, J.; Xu, H.; Shao, Y.; Zhang, Y.; Miao, W.;
+  and Pu, G.
+\newblock 2025.
+\newblock A study of in-context-learning-based text-to-sql errors.
 
 \bibitem[\protect\citeauthoryear{Takenouchi \bgroup et al\mbox.\egroup
   }{2021}]{patsql}

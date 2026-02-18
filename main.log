@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.12)  16 FEB 2026 23:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.12)  18 FEB 2026 00:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -590,22 +590,19 @@ LaTeX Font Info:    Trying to load font information for OT1+phv on input line 10
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2020/03/25 scalable font definitions for OT1/phv.
 )) (./sections/introduction.tex
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 22.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 26.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-Underfull \hbox (badness 3354) in paragraph at lines 24--25
+) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+
+]
+Underfull \hbox (badness 3354) in paragraph at lines 28--29
 []\OT1/ptm/m/n/10 We in-tro-duce a con-strained de-cod-ing method-ol-ogy,
  []
 
-) (./sections/related_work.tex [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-
-
-
-]) (./sections/approach.tex
-Underfull \vbox (badness 1931) has occurred while \output is active []
-
- [2]
+) (./sections/related_work.tex) (./sections/approach.tex [2]
 Underfull \hbox (badness 1769) in paragraph at lines 16--17
 []\OT1/ptm/b/n/10 Language Model Val-ida-tor\OT1/ptm/m/n/10 . With each gen-er-ated
  []
@@ -646,48 +643,82 @@ Overfull \hbox (16.3946pt too wide) in paragraph at lines 42--43
 [] []$\OMS/cmsy/m/n/10 P\OML/cmm/m/it/10 ; n \OMS/cmsy/m/n/10    []$\OT1/ptm/m/sc/10 LanguageModelValidator\OT1/ptm/m/n/10 ($\OMS/cmsy/m/n/10 P\OML/cmm/m/it/10 ; w[]; g[]; n$\OT1/ptm/m/n/10 ) 
  []
 
-) (./sections/experimentalSetup.tex) (./sections/taxonomy.tex
+) (./sections/experimentalSetup.tex
+Underfull \hbox (badness 2762) in paragraph at lines 4--5
+\OT1/ptm/m/n/10 Our sys-tem is im-ple-mented in Python and lever-ages
+ []
+
+
+Underfull \hbox (badness 4013) in paragraph at lines 4--5
+\OT1/ptm/m/n/10 open-source LLMs hosted on Hug-ging-Face for text-
+ []
+
+
+Underfull \hbox (badness 6978) in paragraph at lines 4--5
+\OT1/ptm/m/n/10 to-SQL gen-er-a-tion, in-clud-ing XiYanSQL-QwenCoder-
+ []
+
+
+Underfull \hbox (badness 1668) in paragraph at lines 4--5
+\OT1/ptm/m/n/10 7B-2504, deepseek-coder-6.7b-instruct, and XiYanSQL-
+ []
+
+
+Underfull \hbox (badness 1681) in paragraph at lines 4--5
+\OT1/ptm/m/n/10 deepseek-coder-6.7b-instruct and 80GB for XiYanSQL-
+ []
+
+
+Underfull \hbox (badness 3158) in paragraph at lines 7--8
+\OT1/ptm/m/n/10 Finetuned mod-els XiYanSQL-QwenCoder-7B-2504 and
+ []
+
+) (./sections/taxonomy.tex
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 1.
 
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 29.
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+[3]
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 30.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Overfull \hbox (0.60562pt too wide) in paragraph at lines 41--41
+Overfull \hbox (0.60562pt too wide) in paragraph at lines 42--42
 []\OT1/pcr/m/n/10 SELECT address_line_1, town_city, county[] 
  []
 
-[3]
-Overfull \hbox (18.60562pt too wide) in paragraph at lines 61--61
+
+Overfull \hbox (18.60562pt too wide) in paragraph at lines 62--62
 []   \OT1/pcr/m/n/10 SELECT $address_line_1$ ,  $town_city$ ,[] 
  []
 
 
-Overfull \hbox (48.60562pt too wide) in paragraph at lines 61--61
+Overfull \hbox (48.60562pt too wide) in paragraph at lines 62--62
 []   \OT1/pcr/m/n/10 county FROM Customers WHERE Country  =  'USA'[] 
  []
 
-) (./sections/conclusion.tex) (./main.bbl [4]) [5
+[4]) (./sections/conclusion.tex) (./main.bbl
+Underfull \hbox (badness 3396) in paragraph at lines 52--61
+\OT1/ptm/m/n/10 PI-CARD: Pars-ing in-cre-men-tally for con-strained auto-
+ []
 
-] (./main.aux)
+) [5] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 99EB8D8290A30B1D8EB696014F543AF1;1763.
+(rerunfilecheck)             Checksum: DBF498B45CF1665CE288910DA04DB4E9;1884.
  ) 
 Here is how much of TeX's memory you used:
- 22978 strings out of 480171
- 444590 string characters out of 5894489
- 712296 words of memory out of 5000000
- 40426 multiletter control sequences out of 15000+600000
+ 22982 strings out of 480171
+ 444718 string characters out of 5894489
+ 712341 words of memory out of 5000000
+ 40429 multiletter control sequences out of 15000+600000
  498893 words of font info for 78 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  98i,8n,94p,1259b,897s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (5 pages, 192596 bytes).
+Output written on main.pdf (5 pages, 194672 bytes).
 PDF statistics:
- 246 PDF objects out of 1000 (max. 8388607)
- 206 compressed objects within 3 object streams
- 63 named destinations out of 1000 (max. 500000)
- 125 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 252 PDF objects out of 1000 (max. 8388607)
+ 212 compressed objects within 3 object streams
+ 64 named destinations out of 1000 (max. 500000)
+ 133 words of extra memory for PDF output out of 10000 (max. 10000000)
 
