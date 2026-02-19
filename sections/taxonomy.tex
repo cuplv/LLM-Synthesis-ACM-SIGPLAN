@@ -1,17 +1,32 @@
-\begin{table*}[]
-\begin{tabular}{|l|l|l|l|}
-\hline
- & XiYanSQL-QwenCoder-7B-2504 & deepseek-coder-6.7b-instruct & XiYanSQL-QwenCoder-14B-2504 \\ \hline
-Schema & 1330 & 1107 & 1356 \\ \hline
-Structural & 583 & 1385 & 472 \\ \hline
-Operator & 305 & 1440 & 198 \\ \hline
-Aggregate & 204 & 212 & 189 \\ \hline
-Alias & 45 & 34 & 864 \\ \hline
-Other & 272 & 259 & 142 \\ \hline
-Total & 2739 & 4437 & 3221 \\ \hline
+
+\begin{table*}[t]
+\centering
+\begin{tabular}{l r r r}
+\toprule
+\textbf{Error Category} & \textbf{deepseek-coder-6.7b-instruct} & \textbf{XiYanSQL-7B}  & \textbf{XiYanSQL-14B}\\
+\midrule
+\textbf{Structural / Clause Ordering} & 1385 & 583 & 472\\
+\quad Limit Errors & 245 & 235 & 243\\
+\quad Other Structural Errors & 1140 & 348 & 229\\
+\midrule
+\textbf{Schema Grounding} & 938 & 1179 & 1255\\
+\quad Value Errors & 26 & 58 & 107\\
+\quad Other Schema Errors & 912 & 1121 & 1148\\
+\midrule
+\textbf{Operator Errors} & 1447 & 312 & 202\\
+\quad Where and Having Errors & 658 & 272 & 179\\
+\quad Other Operator Errors & 789 & 40 & 26\\
+\midrule
+\textbf{Aggregate Function Errors} & 214 & 205 & 190\\
+\textbf{Alias Errors} & 34 & 45 & 864\\
+\textbf{Other / Unclassified} & 419 & 415 & 235\\
+\bottomrule
+\textbf{Total Errors} & 4437 & 2739 & 3221\\
 \end{tabular}
-\caption{Preliminary Results}
+\caption{Lexeme-level error distribution across models.}
+\label{tab:error_comparison}
 \end{table*}
+
 
 \section{Taxonomy}
 In this section, we outline our error taxonomy.

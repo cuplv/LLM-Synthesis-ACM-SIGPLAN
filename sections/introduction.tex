@@ -9,7 +9,9 @@
 
 % taxonomy is a downstream to characterize effectiveness of program synthesis techniques during decoding - so clearly - categorize at lexeme level how constrained decoding work at lexeme level -
 
-\jedi{LLMs are used for program synthesis, but errors can compound if the LLM starts off on the wrong track.} Large Language Models (LLMs) are increasingly used as program generators to synthesize working code from natural language prompts. In contrast to other program synthesis techniques, LLMs are scalable to larger and more complex programs; however, due to their autoregressive nature, they can get stuck down an incorrect path as errors can propagate throughout the decoding process which ultimately produces invalid programs.
+\jedi{Problem: We consider studying the kinds of incremental prediction errors LLMs make that take them down the incorrect path in program synthesis tasks.}
+
+\jedi{Why Important: LLMs are used for program synthesis, but errors can compound if the LLM starts off on the wrong track.} Large Language Models (LLMs) are increasingly used as program generators to synthesize working code from natural language prompts. In contrast to other program synthesis techniques, LLMs are scalable to larger and more complex programs; however, due to their autoregressive nature, they can get stuck down an incorrect path as errors can propagate throughout the decoding process which ultimately produces invalid programs.
 
 \jedi{Constrained decoding has shown to improve generation of syntactically valid and typesafe programs by enforcing constraints at decoding time, but constrained decoding techniques with richer semantic constraints, such as those likely required to effectively synthesize SQL queries, have yet to be developed.}
 
