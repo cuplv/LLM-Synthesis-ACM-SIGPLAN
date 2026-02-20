@@ -258,3 +258,46 @@ keywords = {Code Generation, Constrained Decoding, Language Model, Program Repai
       primaryClass={cs.CL},
       url={https://arxiv.org/abs/2507.04701},
 }
+
+@article{constrained_sql,
+author = {Ren, Tonghui and Ke, Chen and Fan, Yuankai and Jing, Yinan and He, Zhenying and Zhang, Kai and Wang, X. Sean},
+title = {The Power of Constraints in Natural Language to SQL Translation},
+year = {2025},
+issue_date = {March 2025},
+publisher = {VLDB Endowment},
+volume = {18},
+number = {7},
+issn = {2150-8097},
+url = {https://doi.org/10.14778/3734839.3734847},
+doi = {10.14778/3734839.3734847},
+abstract = {Current large language model (LLM)-based Natural Language to SQL (NL2SQL) approaches typically rely on the database schema and partial data values for the translation. These approaches are unable to use sufficient data for accurate database understanding due to limitations in data selection methods, and they cannot input the entire database due to the limited context window sizes of LLMs. This insufficient data integration may result in an incomplete understanding of the database, leading to semantically incorrect SQL generation. In this paper, we introduce REDSQL, a novel plug-and-play framework that refines the predicted SQL by utilizing the entire database in the refinement process. The core idea of REDSQL is to enhance SQL refinement by identifying potential errors based on the database content, which is achieved by applying constraints on the input relations of query operations. LLMs can refine the SQL using SQL-related information extracted by REDSQL, which provides concise and informative insights into the database. Additionally, REDSQL enhances schema semantics by integrating data profiling for more effective database utilization. Our experiments demonstrate that REDSQL consistently improves the performance of existing NL2SQL approaches across five benchmarks. Specifically, REDSQL elevates the accuracy of CODES to 67.3\% (+8.8\%) and PURPLE to 67.7\% (+11.1\%) on the Bird benchmark.},
+journal = {Proc. VLDB Endow.},
+month = mar,
+pages = {2097–2111},
+numpages = {15}
+}
+
+@inproceedings{arcadinho-etal-2022-t5ql,
+    title = "{T}5{QL}: Taming language models for {SQL} generation",
+    author = "Arcadinho, Samuel David  and
+      Aparicio, David  and
+      Veiga, Hugo  and
+      Alegria, Antonio",
+    editor = "Bosselut, Antoine  and
+      Chandu, Khyathi  and
+      Dhole, Kaustubh  and
+      Gangal, Varun  and
+      Gehrmann, Sebastian  and
+      Jernite, Yacine  and
+      Novikova, Jekaterina  and
+      Perez-Beltrachini, Laura",
+    booktitle = "Proceedings of the Second Workshop on Natural Language Generation, Evaluation, and Metrics (GEM)",
+    month = dec,
+    year = "2022",
+    address = "Abu Dhabi, United Arab Emirates (Hybrid)",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2022.gem-1.23/",
+    doi = "10.18653/v1/2022.gem-1.23",
+    pages = "276--286",
+    abstract = "Automatic SQL generation has been an active research area, aiming at streamlining the access to databases by writing natural language with the given intent instead of writing SQL. Current SOTA methods for semantic parsing depend on LLMs to achieve high predictive accuracy on benchmark datasets. This reduces their applicability, since LLMs requires expensive GPUs. Furthermore, SOTA methods are ungrounded and thus not guaranteed to always generate valid SQL. Here we propose T5QL, a new SQL generation method that improves the performance in benchmark datasets when using smaller LMs, namely T5-Base, by 13pp when compared against SOTA methods. Additionally, T5QL is guaranteed to always output valid SQL using a context-free grammar to constrain SQL generation. Finally, we show that dividing semantic parsing in two tasks, candidate SQLs generation and candidate re-ranking, is a promising research avenue that can reduce the need for large LMs."
+}

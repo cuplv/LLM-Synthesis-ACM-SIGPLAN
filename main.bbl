@@ -1,15 +1,16 @@
 \begin{thebibliography}{}
 
-\bibitem[\protect\citeauthoryear{Bai \bgroup et al\mbox.\egroup
-  }{2023}]{bai2023qwentechnicalreport}
-Bai, J.; Bai, S.; Chu, Y.; Cui, Z.; Dang, K.; Deng, X.; Fan, Y.; Ge, W.; Han,
-  Y.; Huang, F.; Hui, B.; Ji, L.; Li, M.; Lin, J.; Lin, R.; Liu, D.; Liu, G.;
-  Lu, C.; Lu, K.; Ma, J.; Men, R.; Ren, X.; Ren, X.; Tan, C.; Tan, S.; Tu, J.;
-  Wang, P.; Wang, S.; Wang, W.; Wu, S.; Xu, B.; Xu, J.; Yang, A.; Yang, H.;
-  Yang, J.; Yang, S.; Yao, Y.; Yu, B.; Yuan, H.; Yuan, Z.; Zhang, J.; Zhang,
-  X.; Zhang, Y.; Zhang, Z.; Zhou, C.; Zhou, J.; Zhou, X.; and Zhu, T.
-\newblock 2023.
-\newblock Qwen technical report.
+\bibitem[\protect\citeauthoryear{Arcadinho \bgroup et al\mbox.\egroup
+  }{2022}]{arcadinho-etal-2022-t5ql}
+Arcadinho, S.~D.; Aparicio, D.; Veiga, H.; and Alegria, A.
+\newblock 2022.
+\newblock {T}5{QL}: Taming language models for {SQL} generation.
+\newblock In Bosselut, A.; Chandu, K.; Dhole, K.; Gangal, V.; Gehrmann, S.;
+  Jernite, Y.; Novikova, J.; and Perez-Beltrachini, L., eds., {\em Proceedings
+  of the Second Workshop on Natural Language Generation, Evaluation, and
+  Metrics (GEM)},  276--286.
+\newblock Abu Dhabi, United Arab Emirates (Hybrid): Association for
+  Computational Linguistics.
 
 \bibitem[\protect\citeauthoryear{Gao \bgroup et al\mbox.\egroup
   }{2024}]{dail-sql}

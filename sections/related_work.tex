@@ -1,22 +1,22 @@
 \section{Related Work}
 
 \jedi{Text-to-SQL is a task in which SQL queries are generated from NL questions, and many high performing methods use techniques such as prompt engineering and in-context learning.}
-Text-to-SQL is a program synthesis task concerned with SQL generation for natural language questions.
-Recent research has focused on leveraging Large Language Models (LLMs) for this task and have performed well empirically, reaching test suite accuracies of up to 86.6\%~\cite{dail-sql} against the Spider 1.0 dataset~\cite{spider-sql}. Many of the methods that top the Spider 1.0 leaderboard involve prompt engineering and in-context learning strategies. These methods often treat LLMs as black box synthesizers but are able to scale to complex queries.
+Text-to-SQL is a program synthesis task concerned with SQL query generation from natural language questions.
+Recent research found LLMs empirically performed well on this task, reaching test suite accuracies of up to 86.6\%~\cite{dail-sql} against the Spider 1.0 dataset~\cite{spider-sql}. Many of the methods that top the Spider 1.0 leaderboard involve prompt engineering and in-context learning strategies. These methods often treat LLMs as black box synthesizers but are able to scale to complex queries.
 
-\jedi{Traditional program synthesis techniques provide guarantees, but don't scale.}
-Before the advent of LLMs, symbolic approaches to SQL synthesis explored enumerative search and program sketching to guarantee correct query generation~\cite{scythe,patsql}.
-These works focus on pruning the search space either through additional information provided by the user, such as the constants that are allowed to appear in a query~\cite{scythe,patsql}, or through pruning unproductive paths~\cite{scythe,patsql}.
-These traditional methods often include soundness and bounded completeness guarantees, but struggle to scale to larger, more complex queries.
+% \jedi{Traditional program synthesis techniques provide guarantees, but don't scale.}
+% Before the advent of LLMs, symbolic approaches to SQL synthesis explored enumerative search and program sketching to guarantee correct query generation~\cite{scythe,patsql}.
+% These works focus on pruning the search space either through additional information provided by the user, such as the constants that are allowed to appear in a query~\cite{scythe,patsql}, or through pruning unproductive paths~\cite{scythe,patsql}.
+% These traditional methods often include soundness and bounded completeness guarantees, but struggle to scale to larger, more complex queries.
 
 \jedi{Recent work to aid LLM synthesis focuses on enforcing constraints at decoding time.}
-Recent work has focused on neuro-symbolic approaches to bridge the scalability of LLM aided program generation and more symbolic approaches. Constrained decoding methods aim to enforce certain properties during the decoding process. Techniques such as PICARD ~\cite{scholak-etal-2021-picard} enforce SQL-specific constraints during token generation. Other methods can enforce semantic constraints ~\cite{chopchop} or type safety ~\cite{typeConstrainedDecoding} more generally in program synthesis. Constrained decoding approaches improve syntactic and semantic correctness but depend on the correct token appearing within the model’s top-k predictions based on its learned distribution.
+Recent work has focused on neuro-symbolic approaches to bridge the scalability of LLM aided program generation and more symbolic approaches. Constrained decoding methods aim to enforce properties, such as semantic constraints ~\cite{chopchop} or type safety~\cite{typeConstrainedDecoding}, during the decoding process. In SQL synthesis, techniques such as PICARD~\cite{scholak-etal-2021-picard} incrementally validate partial queries and prune token continuations that violate SQL grammar constraints, while other methods enforce context-free grammar constraints explicitly~\cite{arcadinho-etal-2022-t5ql}. Constrained decoding approaches improve syntactic and semantic correctness but depend on the correct token appearing within the model’s top-k predictions based on its learned distribution.
 
 \jedi{There are error taxonomies for text-to-SQL, but they consider fully generated queries.}
 Prior work has been done to analyze errors for text-to-SQL, but they are concerned with categorizing fully generated queries~\cite{qu2024generationalignitnovel,shen2025studyincontextlearningbasedtexttosqlerrors}. These taxonomies do not capture the lexeme-level mistakes that arise during the decoding process.
 
 \jedi{Our work looks at the lexeme level efficacy of constrained decoding and symbolic fixes.}
-Our work addresses the gap of understanding the effectiveness of constrained decoding by analyzing lexeme-level errors made by LLMs for text-to-SQL. By categorizing incremental mistakes and identifying those amenable to symbolic repair, we provide insight into where constrained decoding can succeed and where simple symbolic fixes can aid LLM guided program synthesis.
+Our work addresses the gap of understanding by analyzing \textit{incremental} lexeme-level errors made by LLMs for text-to-SQL. By categorizing incremental mistakes and identifying those amenable to symbolic repair, we provide insight into where constrained decoding can succeed and where simple symbolic fixes can aid LLM guided program synthesis.
 
 % Some prior works build off the strengths of both approaches, using probabilistic models to guide search while verifying the correctness of produced candidates.
 % These prior works either require white-box access to probabilistic models~\cite{probabilistic-model-synthesis,ml-pbe}, or treat models as program candidate oracles~\cite{llm-cegis}, or apply a hybrid approach that combines both methods~\cite{llm-enumerative-search}.

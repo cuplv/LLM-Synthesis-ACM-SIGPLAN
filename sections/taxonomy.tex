@@ -1,114 +1,94 @@
+\section{Taxonomy of Lexeme-Level SQL Errors}
 
-\begin{table*}[t]
-\centering
-\begin{tabular}{l r r r}
-\toprule
-\textbf{Error Category} & \textbf{deepseek-coder-6.7b-instruct} & \textbf{XiYanSQL-7B}  & \textbf{XiYanSQL-14B}\\
-\midrule
-\textbf{Structural / Clause Ordering} & 1385 & 583 & 472\\
-\quad Limit Errors & 245 & 235 & 243\\
-\quad Other Structural Errors & 1140 & 348 & 229\\
-\midrule
-\textbf{Schema Grounding} & 938 & 1179 & 1255\\
-\quad Value Errors & 26 & 58 & 107\\
-\quad Other Schema Errors & 912 & 1121 & 1148\\
-\midrule
-\textbf{Operator Errors} & 1447 & 312 & 202\\
-\quad Where and Having Errors & 658 & 272 & 179\\
-\quad Other Operator Errors & 789 & 40 & 26\\
-\midrule
-\textbf{Aggregate Function Errors} & 214 & 205 & 190\\
-\textbf{Alias Errors} & 34 & 45 & 864\\
-\textbf{Other / Unclassified} & 419 & 415 & 235\\
-\bottomrule
-\textbf{Total Errors} & 4437 & 2739 & 3221\\
-\end{tabular}
-\caption{Lexeme-level error distribution across models.}
-\label{tab:error_comparison}
-\end{table*}
+\jedi{Overview of taxonomy where we categorize incremental errors and identify easy, medium and hard fixes}
+We categorize incremental prediction errors into six primary types.
+We further categorize errors by the repair difficulty.
+Errors that can be mitigated with simple symbolic fixes are categorized as \textbf{Easy}. Errors where we can infer information that can be potentially useful for error correction are categorized as \textbf{Moderate}. Errors categorized as \textbf{Hard} are inherently more challenging due to dependencies, complex clause interaction, or the need for deep semantic understanding of the natural language query and database schema.
+Each category below includes a definition and the expected difficulty of applying symbolic fixes.
 
+\subsection{Schema-based Table and Column Errors}
+Errors that occur when the model fails to correctly reference the database schema, such as selecting the wrong table or column.
 
-\section{Taxonomy}
-In this section, we outline our error taxonomy.
+\textbf{Symbolic Fix: Easy} Constrained decoding can help mitigate these errors by selecting the top predicted valid schema element from the top-k.
+This would prevent the LLM from predicting invalid tables or column references.
 
-\subsection{Schema-based Errors}
+\textbf{Example}
+Take an incomplete query: \texttt{SELECT T1.NAME FROM CHANNEL 
+AS T1 JOIN}. At this step, the model predicts the table \texttt{program} instead of the correct schema element \texttt{director\_admin}. Importantly, \texttt{director\_admin} appears within the model's top-$k$ candidates, indicating that this is a recoverable schema grounding error.
 
-Schema-based errors are defined as errors in which the model fails to correctly reference the database schema. These errors typically involve either selecting an incorrect table or column name, hallucinating schema attributes, or choosing an inappropriate value from the database for a condition.
+\subsection{Structural / Clause Ordering Errors}
+Violations of expected SQL structure, such as missing or misordered clauses.
 
-\subsubsection{Incorrect Naming}
-These errors are defined as ones where the model generates a lexeme that does not correspond to the correct schema element. For example, the model might predict FIXME instead of the correct column FIXME.
+\subsubsection{LIMIT Errors}
+The model fails to predict a \texttt{LIMIT} clause at the end of the query or incorrectly selects the associated number.
 
-Symbolic Fix: \textbf{Easy} To address the generation of hallucinated schema values, we propose a symbolic fix \textit{schema-based constrained decoding} in which the first valid schema element that appears in the top-k is chosen. If no valid element is initially predicted, one can force the model to select from the set of valid schema elements, often yielding the correct token. Based on empirical results presented in FIXME, the highest valid schema element is FIXME percentage of the time the correct one. Such a technique would fix FIXME number of errors.
+\textbf{Symbolic Fix: Easy} Post-process the query to append a LIMIT with the correct number of rows.
 
-\subsubsection{Incorrect Values}
+\textbf{Example}
+For the gold query: \texttt{SELECT TYPE FROM book GROUP BY TYPE ORDER BY COUNT(*) DESC LIMIT 1}, the associated NL question is: "What is the most common type of books?". Here, the adjective “most” directly implies the inclusion of a LIMIT 1 clause. As LIMIT clauses do not impact the rest of the query, the output of a query generated up to this point may be inspected and found to need a LIMIT clause in order to match the user intent.
 
-These errors typically occur in \texttt{WHERE} conditions, where the model selects an incorrect literal value, even though the query structure and schema reference are correct. For instance, given the question:
+\subsubsection{Other Structural Errors}
+General clause misordering or missing clauses.
 
-\begin{quote}
-\emph{``What are the addresses, towns, and county information for all customers who live in the United States?''}
-\end{quote}
+\textbf{Symbolic Fix: Hard} These errors require reasoning over query tree and matching the natural language question intent. These errors are hard because they often involve long-range dependencies and interactions between multiple clauses, which cannot be corrected by a simple fix.
 
-the gold query is:
+\textbf{Example}
+Gold : \texttt{JOIN}
+Predicted: \texttt{GROUP}
+For complicated queries that involve many joins, not predicting a JOIN can lead to cascading errors and resulting in a hard-to-repair incremental prediction error.
 
-\begin{verbatim}
-SELECT address_line_1, town_city, county
-FROM Customers
-WHERE Country = 'USA';
-\end{verbatim}
+\subsection{Operator Errors}
+Errors in operator selection or placement.
 
-A model might predict \texttt{'United'} as the value, which reflects a plausible misunderstanding of the question’s phrasing. Correctly mapping natural language values to the database representation often requires explicitly grounding the question in the schema or the database contents.
+\subsubsection{WHERE / HAVING Errors}
+Missing or incorrect operators in WHERE or HAVING clauses at the end of a query.
 
-Symbolic Fix: \textbf{Moderate} One approach is to align natural language mentions with schema values, using either string similarity or enumeration over the database domain. This allows the model to select or rank candidates that correspond to actual entries in the database, mitigating errors in value selection.
+\textbf{Symbolic Fix: Medium} For HAVING or WHERE clauses at the end of a query, the correct operator may be derived from the schema and natural language context, but does require additional semantic understanding.
 
+\textbf{Example} For the gold query: \texttt{SELECT name, type\_of\_powertrain, annual\_fuel\_cost FROM vehicles WHERE model\_year = 2013 OR model\_year = 2014} , one NL question is "Show name, type of powertrain, and annual fuel cost for all vehicles with model year 2013 or 2014.". From the question itself, the correct condition may be inferred. 
 
+\subsubsection{Other Operator Errors}
+Other operator misuse.
 
-\subsubsection{Wrong Naming}
-these are errors like wrong column or table name (the gold is present in the schema but the predicted candidate is not)
+\textbf{Symbolic Fix: Hard} Determining the correct operator often requires deeply understanding clause relations, subquery interactions, and the full query context and schema, which may not be inferable from top-k candidates alone.
 
-\textbf{Symbolic fix}: Easy- if valid schema element in top-k then you use a schema based constrained decoding to select (usually the gold is the top most). If there is no valid schema element, have the LLM pick from or rank valid schema elements
+\textbf{Example}  
+Gold lexeme: \texttt{>}  
+Predicted lexeme: \texttt{6}  
 
-\subsubsection{Wrong Values}
-
-For where conditions - the wrong value is selected for example - "What are the addresses, towns, and county information for all customers who live in the United States?" but the gold query is
-
-\begin{verbatim}
-   SELECT $address_line_1$ ,  $town_city$ ,
-   county FROM Customers WHERE Country  =  'USA'
-\end{verbatim}
-
-The LLM predicts \textbf{'United } which makes sense given the phrasing of the question but involves parsing out all the values of the schema to "infer" that "United States" maps to "USA"
-
-\textbf{Symbolic Fix}: Medium - We may be able to infer the correct condition but we need a way to map that question to the actual values in the database
-
-\subsection{Structural based errors}
-These are elements that are a violation of the expected SQL structure (ie clause based errors).
-
-\subsubsection{LIMIT errors}
-The LLM doesn't predict a LIMIT at the end of a full query.
-
-\textbf{Symbolic Fix}: Easy - we basically just look at the output and if it matches except the number of rows we just add a LIMIT
-
-\subsubsection{Everything else}
-
-\subsection{Where Conditions}
-
-\subsubsection{Wrong operator}
-wrong operator (sometimes the LLM will correctly predict bigger/ greater but not $>$
-
-Symbolic fix: easy for wrong operator - if LLM predicts bigger then just replace it with $>$
-
-upon further inspection there aren't many of these that can be easily fixable (only about 2 were bigger/greater instead of $>$) but I'll leave this category in for now
+In queries involving multiple clauses and set operations (e.g., \texttt{UNION} and \texttt{GROUP BY/HAVING}), failing to predict the correct operator can propagate errors across subqueries. Correctly inserting the operator requires reasoning over the schema, clause dependencies, and numeric thresholds, illustrating a hard-to-repair incremental prediction error.
 
 \subsection{Aggregate Errors}
+Incorrect use of aggregation functions such as COUNT, SUM, or MAX.
 
-Wrong aggregate functions like COUNT, MAX, etc
+\textbf{Symbolic Fix: Medium} Some aggregations may be solvable via constrained decoding following a HAVING keyword or be able to be inferred from the natural language context. However, many are not so easily fixable as they require deep understanding of the NL question and user's intent.
 
-\textbf{Symbolic fix}: hard
+\textbf{Example}
+For the NL Question: "List the biographical data and student id for the students who take 2 or more classes and the students who have less than 2 detentions."
 
-\subsection{Other}
+Gold lexeme: \texttt{COUNT(*)}
+Predicted lexeme: \texttt{2}
 
-catch all
+Correctly inserting COUNT(*) requires understanding the semantic intent and grouping by student.
 
-includes syntactically/ semantically "similar" ie they look right....but aren't
+\subsection{Alias Errors}
+Errors in assigning or predicting values after an \texttt{AS} clause.
 
-\textbf{Symbolic fix}: hard
+\textbf{Symbolic Fix: Easy} These errors can often be corrected by consulting the model's top-k predictions for valid alias names or enforcing syntactic constraints via constrained decoding.
+
+\textbf{Example}  
+Gold lexeme \texttt{T2}  
+Predicted lexeme \texttt{2}  
+
+In this example, the model predicted a numeric literal instead of the correct alias after \texttt{AS} in a JOIN clause. Constrained decoding can enforce valid alias selection, preventing invalid identifiers like the predicted 2. 
+
+\subsection{Other / Unclassified Errors}
+These are errors that do not cleanly fit into the rest of the taxonomy.
+
+\textbf{Symbolic Fix: Hard} These errors are difficult to detect and correct automatically, often involving multiple lexemes or hallucinated elements.
+
+\textbf{Example}
+Gold: 50 
+Predicted: 75
+Gold Query: \texttt{SELECT Nationality FROM customer WHERE Card\_Credit  <  50 INTERSECT SELECT Nationality FROM customer WHERE Card\_Credit  >  75}
+This query involves understanding user's intent and managing values across subqueries. 

@@ -5,42 +5,42 @@ The style file: kr.bst
 Database file #1: bibliography.bib
 You've used 11 entries,
             2568 wiz_defined-function locations,
-            643 strings with 8123 characters,
-and the built_in function-call counts, 7372 in all, are:
-= -- 670
-> -- 631
-< -- 3
-+ -- 237
-- -- 236
-* -- 696
-:= -- 1257
-add.period$ -- 56
+            647 strings with 7838 characters,
+and the built_in function-call counts, 6353 in all, are:
+= -- 613
+> -- 437
+< -- 4
++ -- 157
+- -- 156
+* -- 554
+:= -- 1046
+add.period$ -- 59
 call.type$ -- 11
-change.case$ -- 158
+change.case$ -- 114
 chr.to.int$ -- 11
 cite$ -- 11
-duplicate$ -- 183
-empty$ -- 334
-format.name$ -- 251
-if$ -- 1432
+duplicate$ -- 198
+empty$ -- 353
+format.name$ -- 171
+if$ -- 1289
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 7
-newline$ -- 68
-num.names$ -- 37
-pop$ -- 161
+missing$ -- 8
+newline$ -- 70
+num.names$ -- 39
+pop$ -- 113
 preamble$ -- 1
-purify$ -- 169
+purify$ -- 125
 quote$ -- 0
-skip$ -- 179
+skip$ -- 189
 stack$ -- 0
-substring$ -- 220
-swap$ -- 63
-text.length$ -- 3
+substring$ -- 252
+swap$ -- 72
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 88
 warning$ -- 0
-while$ -- 33
+while$ -- 37
 width$ -- 14
-write$ -- 151
+write$ -- 156

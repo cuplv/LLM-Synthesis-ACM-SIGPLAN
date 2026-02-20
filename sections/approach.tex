@@ -1,50 +1,115 @@
 
-\section{Our Approach}
-Our overall system is shown in Figure~\ref{fig:overview}.
+\section{Methodology}
 
-\subsection{Language Model (LM) Generator}
-Consider $\mathcal{L}$ to be an (autoregressive) Language Model created for a sequence generation task that has a predefined vocabulary $\Sigma$, consisting of some $k$ tokens which are used as part of the tokenization. At each timestep $i \in [1, n]$, the model generates a sequence of these tokens, $(t_1, t_2, \dots, t_n)$ based on an autoregressive decoding process where the token with the highest probability is selected. This is usually part of a heuristic or sampling based search procedure on the set of $k$ tokens to predict the next most probable token. Now, consider the LM to be finetuned on a new DSL and the tokens in the vocabulary are not changed. This means that the LM is now capable of producing the probability distribution over the same tokens but conforming to the changed ordering of our DSL $\ie$ if an original ordering of tokens $w \in \Sigma$ exists, then a new ordering of tokens $w^* \in \Sigma$ should also be produced by the LM. A $\mathcal{L}$ generates tokens and concatenates them by taking the token with the highest probability and generates a new token and continues until a whitespace token is generated or a max heap size is reached. 
+\subsection{Language Model Generator}
+\jedi{We generate lexemes token by token using a heap.}
+Consider $\mathcal{L}$ to be an (autoregressive) Language Model created for a sequence generation task. At each timestep $i \in [1, n]$, the model generates a sequence of these tokens, $(t_1, t_2, \dots, t_n)$ based on previous tokens.
+At each generation step, the model predicts the top-$k$ next tokens along with their probabilities. Candidate sequences are tracked using cumulative negative log-probabilities and stored in a min-heap. Lexeme generation continues iteratively until a space is produced, the heap exceeds a predefined maximum size, or a timeout is reached.
+This process allows $\mathcal{L}$ to generate SQL queries lexeme-by-lexeme while maintaining probabilistic ranking and supporting top-$k$ exploration of candidates.
 
-\begin{exmp}\textit{
-Consider the original token sequence $w = {\textit{SELECT, *, FROM, books}}$, drawn from SQL queries present in the model’s training data. Using our DSL, this sequence is transformed into $w^{*} = {\textit{PROJECT, *, FROM, books}}$. In this transformation, the only substituted token is $\textit{PROJECT}$, and we therefore expect the model’s vocabulary to assign a non-zero probability $p$ to this token.}
+% Since we use the language model as an autoregressive next token predictor, we would also like to harness the power of the probabilistic nature in which the tokens are ranked. Usually, since the top-$1$ token is taken as the next prediction, there is an uncertainty that whether this next token is part of the valid query that satisfies the question that is requested by the user. Hence, we would also like to store, some top-$m$ tokens at each time step and perform a beam search when on these token sets when there is a mismatch in the token requested and the query validated.
 
-\textit{For commonly occurring words, we can fully expect the new word to also exist in the vocabulary, however, if the word does not exist we know that some $n$-gram combination of the word does exist. When for example the token, $\textit{REGENRATE} \notin \Sigma$ then we can form the same word by some combination like $\{\textit{RE, GEN, E, RATE}\} \in \Sigma$. In our approach, we use QWEN-7B~\cite{bai2023qwentechnicalreport}, which uses an open-source fast Byte Pair Encoding (BPE) for tokenization and $\text{len}(\Sigma) \in 151642$.
-}\end{exmp}
+\subsection{Language Model Validator}
+\jedi{We validate each lexeme by comparing it to the gold lexeme and continue generating.}
+For each generated lexeme, we perform incremental validation by comparing it to the corresponding lexeme in the gold, or ground truth, query. If the top-predicted lexeme does not match the gold lexeme, it is considered a mistake. To handle aliasing and schema prefixes, we compare only the column names, so that T1.BehaviorMonitoring and behaviormonitoring are treated as equivalent. We also evaluate lexemes case insensitive. 
+To study the potential effectiveness of symbolic fixes, we guide the language model, when a mismatch occurs, by replacing the incorrect predicted lexeme with the gold lexeme into the generated sequence.
+These fixes ensure that subsequent predictions are conditioned on the correct context, mimicking a scenario in which constrained decoding or symbolic repair techniques guide the LLM to feasible search paths.
 
-Since we use the language model as an autoregressive next token predictor, we would also like to harness the power of the probabilistic nature in which the tokens are ranked. Usually, since the top-$1$ token is taken as the next prediction, there is an uncertainty that whether this next token is part of the valid query that satisfies the question that is requested by the user. Hence, we would also like to store, some top-$m$ tokens at each time step and perform a beam search when on these token sets when there is a mismatch in the token requested and the query validated.
 
-\textbf{Language Model Validator}. With each generated lexeme, we validate the generated lexeme by evaluating it against the expected lexeme of the gold query. If the most probable lexeme does not match the gold lexeme, we consider it to be a mistake. We compare the generated lexeme with the gold lexeme while considering issues that arise with aliasing for column names by only considering the column name. For example $T1.BehaviorMonitoring$ and $BehaviorMonitoring$ would both be considered correct lexemes compared to the gold lexeme $BehaviorMonitoring$. If the top most probable lexeme does not match the gold lexeme, we guide the Language Model by correcting it with the gold lexeme and continue generating. We incrementally validate each generated lexeme to guide the Language Model towards more productive generation paths rather than allow it to fully generate a query before evaluating its correctness. 
+\begin{table*}[t]
+\centering
+\begin{tabular}{l r r r}
+\toprule
+\textbf{Error Category} & \textbf{deepseek-coder-6.7b-instruct} & \textbf{XiYanSQL-7B}  & \textbf{XiYanSQL-14B}\\
+\midrule
+\textbf{Gold is highest valid schema element} & 153 & 357 & 364\\
+\midrule
+\textbf{Gold Appears in Top-K} & 301 & 452 & 446\\
+\end{tabular}
+\caption{This table presents the results after evaluating the number of table and column schema errors where the gold lexeme appears in the top-k predictions, as well as the number of times it was the highest-ranked valid schema element.}
+\label{tab:schema_decoding}
+\end{table*}
 
-% This \textbf{lexeme level validation} guides 
 
-Our system architecture is outlined in Algorithm~\ref{alg:system_alg}.
+\begin{table*}[t]
+\centering
+\begin{tabular}{l r r r}
+\toprule
+\textbf{Error Category} & \textbf{deepseek-coder-6.7b-instruct} & \textbf{XiYanSQL-7B}  & \textbf{XiYanSQL-14B}\\
+\midrule
+\textbf{Total Structural / Clause Ordering } & 725 & 406 & 271\\
+\quad Limit Errors & 139 & 199 & 133\\
+\quad Other Structural Errors & 586 & 207 & 138\\
+\midrule
+\textbf{Total Operator Errors} & 676 & 163 & 126\\
+\quad Where and Having Errors & 147 & 53 & 47\\
+\quad Other Operator Errors & 529 & 110 & 79\\
+\midrule
+\textbf{Schema Table and Column Errors} & 352 & 498 & 521\\
+\textbf{Aggregate Function Errors} & 111 & 111 & 105\\
+\textbf{Alias Errors} & 21 & 27 & 415\\
+\textbf{Other / Unclassified} & 102 & 60 & 80\\
+\bottomrule
+\textbf{Total Errors} & 1987 & 1265 & 1518\\
+\end{tabular}
+\caption{Lexeme-level error distribution across models.}
+\label{tab:error_comparison}
+\end{table*}
 
-\begin{algorithm}[ht!]
-\caption{System Algorithm}
-\label{alg:system_alg}
-\begin{algorithmic}[1]
-\STATE \textbf{Require:} Language Model $\mathcal{L}$, beam width $m$, gold query $g$ and some string prompt $\mathcal{P}$, number of mistakes $n$
-\PROCEDURE{LanguageModelValidator}{$\mathcal{P}, w, g, n$}
-\IF{$g == w \text{ returns } \mathrm{TRUE}$ }
-\STATE $\mathcal{P} \gets \mathcal{P} ~||~ w$
-\STATE \textbf{return} $\mathcal{P}, n$
-\ELSE
-\STATE $\mathcal{P} \gets \mathcal{P} ~||~ g$
-\STATE $n \gets n +1$
-\STATE \textbf{return} $\mathcal{P}, n$
-\ENDIF
-\ENDPROCEDURE
-\PROCEDURE{Orchestrator}{}
-\STATE ${n} \gets 0$
-\FOR {$i=1,2,\ldots,\mathrm{len}(\mathrm{gold\_query})$}
-\STATE ${w_i} \gets ~$\CALL{$\mathcal{L}$}{$\mathcal{P}$}
-\STATE ${g_i} \gets ~$\CALL{GoldLexeme}{$g, i$} 
-\STATE $\mathcal{P}, n \gets ~$\CALL{LanguageModelValidator}{$\mathcal{P}, w_i, g_i, n$} 
-\ENDFOR
-\STATE \textbf{return} $n$
-\ENDPROCEDURE
-\end{algorithmic}
-\end{algorithm}
+\begin{table*}[t]
+\centering
+\begin{tabular}{l r r r}
+\toprule
+\textbf{Error Category} & \textbf{deepseek-coder-6.7b-instruct} & \textbf{XiYanSQL-7B}  & \textbf{XiYanSQL-14B}\\
+\midrule
+\textbf{Total Structural / Clause Ordering Errors} & 0.76 & 0.79 & 0.58\\
+\quad Limit Errors & 0.2 & 0.72 & 0.39\\
+\quad Other Structural Errors & 0.9 & 0.86 & 0.77\\
+\midrule
+\textbf{Total Operator Errors} & 0.07 & 0.53 & 0.53\\
+\quad Where and Having Errors & 0.01 & 0.4 & 0.45\\
+\quad Other Operator Errors & 0.09 & 0.6 & 0.58\\
+\midrule
+\textbf{Schema Table and Column Errors} & 0.86 & 0.91 & 0.86\\
+\textbf{Aggregate Function Errors} & 0.77 & 0.86 & 0.9\\
+\textbf{Alias Errors} & 0.43 & 1.0 & 0.99\\
+\textbf{Other / Unclassified} & 0.68 & 0.53 & 0.29\\
+\bottomrule
+\textbf{Total Errors} & 0.53 & 0.80 & 0.79\\
+\end{tabular}
+\caption{This table presents the percentage of the gold lexeme found in the top-k by category. Where k=10.}
+\label{tab:top_k}
+\end{table*}
+% This \textbf{lexeme level validation} guides
+
+% Our system architecture is outlined in Algorithm~\ref{alg:system_alg}.
+
+% \begin{algorithm}[ht!]
+% \caption{System Algorithm}
+% \label{alg:system_alg}
+% \begin{algorithmic}[1]
+% \STATE \textbf{Require:} Language Model $\mathcal{L}$, beam width $m$, gold query $g$ and some string prompt $\mathcal{P}$, number of mistakes $n$
+% \PROCEDURE{LMValidator}{$\mathcal{P}, w, g, n$}
+% \IF{$g == w \text{ returns } \mathrm{TRUE}$ }
+% \STATE $\mathcal{P} \gets \mathcal{P} ~||~ w$
+% \STATE \textbf{return} $\mathcal{P}, n$
+% \ELSE
+% \STATE $\mathcal{P} \gets \mathcal{P} ~||~ g$
+% \STATE $n \gets n +1$
+% \STATE \textbf{return} $\mathcal{P}, n$
+% \ENDIF
+% \ENDPROCEDURE
+% \PROCEDURE{Orchestrator}{}
+% \STATE ${n} \gets 0$
+% \FOR {$i=1,2,\ldots,\mathrm{len}(\mathrm{gold\_query})$}
+% \STATE ${w_i} \gets ~$\CALL{$\mathcal{L}$}{$\mathcal{P}$}
+% \STATE ${g_i} \gets ~$\CALL{GoldLexeme}{$g, i$}
+% \STATE $\mathcal{P}, n \gets ~$\CALL{LMValidator}{$\mathcal{P}, w_i, g_i, n$}
+% \ENDFOR
+% \STATE \textbf{return} $n$
+% \ENDPROCEDURE
+% \end{algorithmic}
+% \end{algorithm}
 
 % %     \State \textbf{Require:} Language Model $\mathcal{L}$, beam width $m$, gold query $g$ and some string prompt $\mathcal{P}$, number of mistakes $n$
 % %     \Procedure{LanguageModelValidator}{$\mathcal{P}, w, g, n$}
@@ -63,9 +128,9 @@ Our system architecture is outlined in Algorithm~\ref{alg:system_alg}.
 % % \State ${n} \gets 0$
 % % \For {$i=1,2,\ldots,\mathrm{len}(\mathrm{gold\_query})$}
 % %     \State ${w_i} \gets $\Call{$\mathcal{L}$}{$\mathcal{P}$}
-% %     \State ${g_i} \gets $\Call{GoldLexeme}{$g, i$} 
-% %     % \State $B_i \in \{w_i^1,\dots,w_i^k\} $ which are the top k lexemes in a beam 
-% %     \State $\mathcal{P}, n \gets $\Call{LanguageModelValidator}{$\mathcal{P}, w_i, g_i, n$} 
+% %     \State ${g_i} \gets $\Call{GoldLexeme}{$g, i$}
+% %     % \State $B_i \in \{w_i^1,\dots,w_i^k\} $ which are the top k lexemes in a beam
+% %     \State $\mathcal{P}, n \gets $\Call{LanguageModelValidator}{$\mathcal{P}, w_i, g_i, n$}
 % % \EndFor
 % % \State \textbf{return} $n$
 % % \EndProcedure

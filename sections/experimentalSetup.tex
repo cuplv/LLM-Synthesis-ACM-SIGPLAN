@@ -1,15 +1,18 @@
 \section{Experimental Setup}
 
 \subsection{Implementation}
-Our system is implemented in Python and leverages open-source LLMs hosted on HuggingFace for text-to-SQL generation, including XiYanSQL-QwenCoder-7B-2504, deepseek-coder-6.7b-instruct, and XiYanSQL-QwenCoder-14B-2504. Models are loaded in 4-bit quantized mode when possible to reduce GPU memory usage, and generation is performed on A100 NVIDIA GPUs with 40GB VRAM for XiYanSQL-QwenCoder-7B-2504, deepseek-coder-6.7b-instruct and 80GB for XiYanSQL-QwenCoder-14B-2504 with automatic device mapping and offloading for larger models.
+Our evaluation is carried out in Python and leverages open-source LLMs hosted on HuggingFace for text-to-SQL generation, including XiYanSQL-QwenCoder-7B-2504, deepseek-coder-6.7b-instruct, and XiYanSQL-QwenCoder-14B-2504. Models are loaded in 4-bit quantized mode when possible to reduce GPU memory usage, and generation is performed on A100 NVIDIA GPUs with 40GB VRAM for XiYanSQL-QwenCoder-7B-2504, deepseek-coder-6.7b-instruct and 80GB for XiYanSQL-QwenCoder-14B-2504 with automatic device mapping and offloading for larger models.
 
 \subsection{Model Choice}
-Finetuned models XiYanSQL-QwenCoder-7B-2504 and XiYanSQL-QwenCoder-14B-2504 were chosen due to their high performance on the Spider dataset ~\cite{xiYan}. We also chose a general purpose model deepseek-coder-6.7b-instruct.
+Finetuned models XiYanSQL-QwenCoder-7B-2504 and XiYanSQL-QwenCoder-14B-2504 were chosen due to their high performance on the Spider dataset ~\cite{xiYan}. We also use the general purpose deepseek-coder-6.7b-instruct model to observe the effect fine-tuning has on the kinds of mistakes LLMs make.
 
 \subsection{Dataset}
-From the test split of the Spider 1.0 dataset ~\cite{spider-sql}, we evaluate the queries deemed hard and extra as we are most interested in errors that arise from complex queries.
+We evaluated 369 hard and extra hard queries from the test split of the Spider 1.0 dataset ~\cite{spider-sql}.
+The hard and extra hard queries were chosen to surface errors that arise from complex queries, the queries that LLMs tend to have trouble synthesizing.
+We excluded the queries whose prompts, which included the schemas for the relevant database, did not fit into the GPU memory.
 
-
+\subsection{Schema Selection}
+For each database, we extract the corresponding schema definition from the provided .sql file and include its contents verbatim in the model prompt. No additional preprocessing the of schema elements is performed. This allows us to isolate lexeme-level generation errors without introducing confounding effects from schema filtering mechanisms.
 % \begin{table}[]
 % \begin{tabular}{rr}
 % \multicolumn{1}{l}{}     & \multicolumn{1}{l}{Count} \\ \hline

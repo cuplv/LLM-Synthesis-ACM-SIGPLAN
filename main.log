@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.12)  18 FEB 2026 14:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2026.2.12)  19 FEB 2026 18:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -510,7 +510,7 @@ File: pgflibraryshapes.misc.code.tex 2021/05/15 v3.1.9a (3.1.9a)
 \c@thrm=\count317
 \c@lma=\count318
 )
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 118.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 120.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
@@ -520,25 +520,25 @@ File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 ) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-Package hyperref Info: Link coloring OFF on input line 118.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 120.
+LaTeX Font Info:    ... okay on input line 120.
+Package hyperref Info: Link coloring OFF on input line 120.
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
  (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
@@ -548,9 +548,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count320
 )
-LaTeX Info: Redefining \ref on input line 118.
-LaTeX Info: Redefining \pageref on input line 118.
-LaTeX Info: Redefining \nameref on input line 118.
+LaTeX Info: Redefining \ref on input line 120.
+LaTeX Info: Redefining \pageref on input line 120.
+LaTeX Info: Redefining \nameref on input line 120.
  (./main.out) (./main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
@@ -578,72 +578,24 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 \titlearea=\box67
-LaTeX Font Info:    Trying to load font information for OMS+ptm on input line 121.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
-File: omsptm.fd 
-)
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 121.
 \actualheight=\skip61
  (./figures/overview.tikz
 LaTeX Font Info:    Trying to load font information for OT1+phv on input line 10.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2020/03/25 scalable font definitions for OT1/phv.
 )) (./sections/introduction.tex
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 26.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+Underfull \hbox (badness 3646) in paragraph at lines 9--10
+\OT1/ptm/m/n/10 decoding-time in-ter-ven-tions, in-clud-ing SQL grammar-
+ []
+
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 20.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
-]
-Underfull \hbox (badness 3354) in paragraph at lines 28--29
-[]\OT1/ptm/m/n/10 We in-tro-duce a con-strained de-cod-ing method-ol-ogy,
- []
-
-) (./sections/related_work.tex) (./sections/approach.tex [2]
-Underfull \hbox (badness 1769) in paragraph at lines 16--17
-[]\OT1/ptm/b/n/10 Language Model Val-ida-tor\OT1/ptm/m/n/10 . With each gen-er-ated
- []
-
-
-Underfull \hbox (badness 1424) in paragraph at lines 16--17
-\OT1/ptm/m/n/10 lex-eme, we val-i-date the gen-er-ated lex-eme by eval-u-at-
- []
-
-
-Underfull \hbox (badness 1221) in paragraph at lines 16--17
-\OT1/ptm/m/n/10 ing it against the ex-pected lex-eme of the gold query.
- []
-
-
-Underfull \hbox (badness 1033) in paragraph at lines 16--17
-\OT1/ptm/m/n/10 If the most prob-a-ble lex-eme does not match the gold
- []
-
-
-Underfull \hbox (badness 1931) in paragraph at lines 16--17
-\OT1/ptm/m/n/10 lex-eme, we con-sider it to be a mis-take. We com-
- []
-
-
-Underfull \hbox (badness 1681) in paragraph at lines 16--17
-\OT1/ptm/m/n/10 con-sid-er-ing is-sues that arise with alias-ing for col-umn
- []
-
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 23.
-
-Underfull \hbox (badness 10000) in paragraph at lines 27--27
-[] []\OT1/ptm/b/n/10 procedure \OT1/ptm/m/sc/10 Lan-guage-Mod-el-Val-ida-
- []
-
-
-Overfull \hbox (16.3946pt too wide) in paragraph at lines 42--43
-[] []$\OMS/cmsy/m/n/10 P\OML/cmm/m/it/10 ; n \OMS/cmsy/m/n/10    []$\OT1/ptm/m/sc/10 LanguageModelValidator\OT1/ptm/m/n/10 ($\OMS/cmsy/m/n/10 P\OML/cmm/m/it/10 ; w[]; g[]; n$\OT1/ptm/m/n/10 ) 
- []
-
-) (./sections/experimentalSetup.tex
+]) (./sections/related_work.tex) (./sections/approach.tex [2]) (./sections/experimentalSetup.tex
 Underfull \hbox (badness 2762) in paragraph at lines 4--5
 \OT1/ptm/m/n/10 Our sys-tem is im-ple-mented in Python and lever-ages
  []
@@ -673,47 +625,34 @@ Underfull \hbox (badness 3158) in paragraph at lines 7--8
 \OT1/ptm/m/n/10 Finetuned mod-els XiYanSQL-QwenCoder-7B-2504 and
  []
 
-) (./sections/taxonomy.tex [3]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 45.
+) (./sections/taxonomy.tex
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 25.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Overfull \hbox (0.60562pt too wide) in paragraph at lines 57--57
-[]\OT1/pcr/m/n/10 SELECT address_line_1, town_city, county[] 
- []
-
-
-Overfull \hbox (18.60562pt too wide) in paragraph at lines 77--77
-[]   \OT1/pcr/m/n/10 SELECT $address_line_1$ ,  $town_city$ ,[] 
- []
-
-
-Overfull \hbox (48.60562pt too wide) in paragraph at lines 77--77
-[]   \OT1/pcr/m/n/10 county FROM Customers WHERE Country  =  'USA'[] 
- []
-
-[4]) (./sections/conclusion.tex) (./main.bbl
-Underfull \hbox (badness 3396) in paragraph at lines 52--61
+) [3]) (./sections/results.tex) [4] (./sections/conclusion.tex) (./main.bbl
+Underfull \hbox (badness 3396) in paragraph at lines 53--62
 \OT1/ptm/m/n/10 PI-CARD: Pars-ing in-cre-men-tally for con-strained auto-
  []
 
-) [5] (./main.aux)
+[5]) [6
+
+] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: DBF498B45CF1665CE288910DA04DB4E9;1884.
+(rerunfilecheck)             Checksum: 9A70DA1250B9449C059D02956F384ABA;2702.
  ) 
 Here is how much of TeX's memory you used:
- 22983 strings out of 480171
- 444740 string characters out of 5894489
- 712420 words of memory out of 5000000
- 40430 multiletter control sequences out of 15000+600000
- 498893 words of font info for 78 fonts, out of 8000000 for 9000
+ 22887 strings out of 480171
+ 443671 string characters out of 5894489
+ 711424 words of memory out of 5000000
+ 40362 multiletter control sequences out of 15000+600000
+ 490571 words of font info for 59 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 98i,8n,94p,1259b,897s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (5 pages, 195537 bytes).
+ 98i,8n,94p,1329b,897s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (6 pages, 152733 bytes).
 PDF statistics:
- 252 PDF objects out of 1000 (max. 8388607)
- 212 compressed objects within 3 object streams
- 64 named destinations out of 1000 (max. 500000)
- 133 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 234 PDF objects out of 1000 (max. 8388607)
+ 200 compressed objects within 2 object streams
+ 48 named destinations out of 1000 (max. 500000)
+ 165 words of extra memory for PDF output out of 10000 (max. 10000000)
 
