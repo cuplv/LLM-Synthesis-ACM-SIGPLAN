@@ -11,9 +11,9 @@ This process allows $\mathcal{L}$ to generate SQL queries lexeme-by-lexeme while
 
 \subsection{Language Model Validator}
 \jedi{We validate each lexeme by comparing it to the gold lexeme and continue generating.}
-For each generated lexeme, we perform incremental validation by comparing it to the corresponding lexeme in the gold, or ground truth, query. If the top-predicted lexeme does not match the gold lexeme, it is considered a mistake. To handle aliasing and schema prefixes, we compare only the column names, so that T1.BehaviorMonitoring and behaviormonitoring are treated as equivalent. We also evaluate lexemes case insensitive. 
+For each generated lexeme, we perform incremental validation by comparing it to the corresponding lexeme in the gold, or ground truth, query. If the top-predicted lexeme does not match the gold lexeme, it is considered a mistake. To handle aliasing and schema prefixes, we compare only the column names and evaluate lexemes case insensitively, so that T1.BehaviorMonitoring and behaviormonitoring are treated as equivalent. 
 To study the potential effectiveness of symbolic fixes, we guide the language model, when a mismatch occurs, by replacing the incorrect predicted lexeme with the gold lexeme into the generated sequence.
-These fixes ensure that subsequent predictions are conditioned on the correct context, mimicking a scenario in which constrained decoding or symbolic repair techniques guide the LLM to feasible search paths.
+These fixes ensure that subsequent predictions are generated with the correct context, mimicking a scenario in which constrained decoding or symbolic repair techniques guide the LLM to feasible search paths.
 
 
 \begin{table*}[t]
@@ -26,7 +26,7 @@ These fixes ensure that subsequent predictions are conditioned on the correct co
 \midrule
 \textbf{Gold Appears in Top-K} & 301 & 452 & 446\\
 \end{tabular}
-\caption{This table presents the results after evaluating the number of table and column schema errors where the gold lexeme appears in the top-k predictions, as well as the number of times it was the highest-ranked valid schema element.}
+\caption{Schema errors where the gold lexeme appears in the top-10 predictions, and how often the gold lexeme was the highest-ranked valid schema element.}
 \label{tab:schema_decoding}
 \end{table*}
 
@@ -41,14 +41,14 @@ These fixes ensure that subsequent predictions are conditioned on the correct co
 \quad Limit Errors & 139 & 199 & 133\\
 \quad Other Structural Errors & 586 & 207 & 138\\
 \midrule
-\textbf{Total Operator Errors} & 676 & 163 & 126\\
-\quad Where and Having Errors & 147 & 53 & 47\\
-\quad Other Operator Errors & 529 & 110 & 79\\
+\textbf{Total Operator Errors} & 632 & 100 & 63\\
+\quad Where and Having Errors & 147 & 45 & 39\\
+\quad Other Operator Errors & 485 & 55 & 24\\
 \midrule
 \textbf{Schema Table and Column Errors} & 352 & 498 & 521\\
 \textbf{Aggregate Function Errors} & 111 & 111 & 105\\
 \textbf{Alias Errors} & 21 & 27 & 415\\
-\textbf{Other / Unclassified} & 102 & 60 & 80\\
+\textbf{Other / Unclassified} & 146 & 123 & 143\\
 \bottomrule
 \textbf{Total Errors} & 1987 & 1265 & 1518\\
 \end{tabular}
@@ -66,18 +66,18 @@ These fixes ensure that subsequent predictions are conditioned on the correct co
 \quad Limit Errors & 0.2 & 0.72 & 0.39\\
 \quad Other Structural Errors & 0.9 & 0.86 & 0.77\\
 \midrule
-\textbf{Total Operator Errors} & 0.07 & 0.53 & 0.53\\
-\quad Where and Having Errors & 0.01 & 0.4 & 0.45\\
-\quad Other Operator Errors & 0.09 & 0.6 & 0.58\\
+\textbf{Total Operator Errors} & 0.01 & 0.5 & 0.58\\
+\quad Where and Having Errors & 0.01 & 0.42 & 0.46\\
+\quad Other Operator Errors & 0.01 & 0.56 & 0.79\\
 \midrule
 \textbf{Schema Table and Column Errors} & 0.86 & 0.91 & 0.86\\
 \textbf{Aggregate Function Errors} & 0.77 & 0.86 & 0.9\\
 \textbf{Alias Errors} & 0.43 & 1.0 & 0.99\\
-\textbf{Other / Unclassified} & 0.68 & 0.53 & 0.29\\
+\textbf{Other / Unclassified} & 0.76 & 0.53 & 0.37\\
 \bottomrule
 \textbf{Total Errors} & 0.53 & 0.80 & 0.79\\
 \end{tabular}
-\caption{This table presents the percentage of the gold lexeme found in the top-k by category. Where k=10.}
+\caption{Percentages of how often the gold lexeme was found in the top-10.}
 \label{tab:top_k}
 \end{table*}
 % This \textbf{lexeme level validation} guides

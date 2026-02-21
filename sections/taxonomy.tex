@@ -3,76 +3,71 @@
 \jedi{Overview of taxonomy where we categorize incremental errors and identify easy, medium and hard fixes}
 We categorize incremental prediction errors into six primary types.
 We further categorize errors by the repair difficulty.
-Errors that can be mitigated with simple symbolic fixes are categorized as \textbf{Easy}. Errors where we can infer information that can be potentially useful for error correction are categorized as \textbf{Moderate}. Errors categorized as \textbf{Hard} are inherently more challenging due to dependencies, complex clause interaction, or the need for deep semantic understanding of the natural language query and database schema.
-Each category below includes a definition and the expected difficulty of applying symbolic fixes.
+Errors that can be mitigated with simple symbolic fixes are categorized as \textbf{Easy}. Errors where we can infer information that can be potentially useful for error correction are categorized as \textbf{Moderate}. Errors categorized as \textbf{Hard} are inherently more challenging due to complex clause dependencies and interactions, or the need for deep semantic understanding of the natural language query and database schema.
+Each category below includes a definition, the expected difficulty of applying symbolic fixes and a representative example.
 
 \subsection{Schema-based Table and Column Errors}
 Errors that occur when the model fails to correctly reference the database schema, such as selecting the wrong table or column.
 
-\textbf{Symbolic Fix: Easy} Constrained decoding can help mitigate these errors by selecting the top predicted valid schema element from the top-k.
-This would prevent the LLM from predicting invalid tables or column references.
+\textbf{Symbolic Fix: Easy} A method such as \textit{schema-based constrained decoding} can help mitigate these errors by selecting the top predicted valid schema element from the top-k.
 
 \textbf{Example}
 Take an incomplete query: \texttt{SELECT T1.NAME FROM CHANNEL 
-AS T1 JOIN}. At this step, the model predicts the table \texttt{program} instead of the correct schema element \texttt{director\_admin}. Importantly, \texttt{director\_admin} appears within the model's top-$k$ candidates, indicating that this is a recoverable schema grounding error.
+AS T1 JOIN}. At this step, the model predicts the table \texttt{program} instead of the correct schema element \texttt{director\_admin}. Importantly, \texttt{director\_admin} appears within the model's top-$k$ candidates, indicating that this is a recoverable schema based error.
 
 \subsection{Structural / Clause Ordering Errors}
-Violations of expected SQL structure, such as missing or misordered clauses.
+These errors encompass incorrect clause organization, prediction or query structure.
 
 \subsubsection{LIMIT Errors}
 The model fails to predict a \texttt{LIMIT} clause at the end of the query or incorrectly selects the associated number.
 
-\textbf{Symbolic Fix: Easy} Post-process the query to append a LIMIT with the correct number of rows.
+\textbf{Symbolic Fix: Easy} A symbolic fix to mitigate these errors is to post-process the query and append a LIMIT clause with the correct number of rows.
 
 \textbf{Example}
-For the gold query: \texttt{SELECT TYPE FROM book GROUP BY TYPE ORDER BY COUNT(*) DESC LIMIT 1}, the associated NL question is: "What is the most common type of books?". Here, the adjective “most” directly implies the inclusion of a LIMIT 1 clause. As LIMIT clauses do not impact the rest of the query, the output of a query generated up to this point may be inspected and found to need a LIMIT clause in order to match the user intent.
+For the gold query: \texttt{SELECT TYPE FROM book GROUP BY TYPE ORDER BY COUNT(*) DESC LIMIT 1}, the associated natural language question is: "What is the most common type of books?". Here, the adjective “most” directly implies the inclusion of a LIMIT 1 clause. As LIMIT clauses do not impact the rest of the query, the output of a query generated up to this point may be inspected and found to need a LIMIT clause in order to match the user intent.
 
 \subsubsection{Other Structural Errors}
-General clause misordering or missing clauses.
+These are general structural based errors.
 
-\textbf{Symbolic Fix: Hard} These errors require reasoning over query tree and matching the natural language question intent. These errors are hard because they often involve long-range dependencies and interactions between multiple clauses, which cannot be corrected by a simple fix.
+\textbf{Symbolic Fix: Hard} These errors require reasoning over the query skeleton and matching the intent of the natural language question.
 
 \textbf{Example}
 Gold : \texttt{JOIN}
 Predicted: \texttt{GROUP}
-For complicated queries that involve many joins, not predicting a JOIN can lead to cascading errors and resulting in a hard-to-repair incremental prediction error.
+
+For complicated queries that involve many joins, not predicting a JOIN can lead to cascading errors. These errors often involve complex dependencies and interactions between multiple clauses, which cannot be corrected by a simple fix.
 
 \subsection{Operator Errors}
-Errors in operator selection or placement.
+These are errors for comparator operators.
 
 \subsubsection{WHERE / HAVING Errors}
-Missing or incorrect operators in WHERE or HAVING clauses at the end of a query.
+These errors are categorized as having missing or incorrect operators in WHERE or HAVING clauses at the end of a query.
 
-\textbf{Symbolic Fix: Medium} For HAVING or WHERE clauses at the end of a query, the correct operator may be derived from the schema and natural language context, but does require additional semantic understanding.
+\textbf{Symbolic Fix: Medium} For HAVING or WHERE clauses at the end of a query, the correct operator may be derived from the schema and natural language context, but may require additional semantic understanding.
 
-\textbf{Example} For the gold query: \texttt{SELECT name, type\_of\_powertrain, annual\_fuel\_cost FROM vehicles WHERE model\_year = 2013 OR model\_year = 2014} , one NL question is "Show name, type of powertrain, and annual fuel cost for all vehicles with model year 2013 or 2014.". From the question itself, the correct condition may be inferred. 
+\textbf{Example} For the gold query: \texttt{SELECT name, type\_of\_powertrain, annual\_fuel\_cost FROM vehicles WHERE model\_year = 2013 OR model\_year = 2014} , one NL question is "Show name, type of powertrain, and annual fuel cost for all vehicles with model year 2013 or 2014.". From the question itself, the correct conditions may be inferred. 
 
 \subsubsection{Other Operator Errors}
-Other operator misuse.
+This category encompasses other forms of comparator operator errors.
 
-\textbf{Symbolic Fix: Hard} Determining the correct operator often requires deeply understanding clause relations, subquery interactions, and the full query context and schema, which may not be inferable from top-k candidates alone.
+\textbf{Symbolic Fix: Hard} Determining the correct operator often requires deep understanding clause relations, subquery interactions, and the full query context and schema.
 
 \textbf{Example}  
 Gold lexeme: \texttt{>}  
 Predicted lexeme: \texttt{6}  
 
-In queries involving multiple clauses and set operations (e.g., \texttt{UNION} and \texttt{GROUP BY/HAVING}), failing to predict the correct operator can propagate errors across subqueries. Correctly inserting the operator requires reasoning over the schema, clause dependencies, and numeric thresholds, illustrating a hard-to-repair incremental prediction error.
+Correctly inserting the operator requires reasoning over the schema, clause dependencies, and semantic understanding of the natural language question.
 
 \subsection{Aggregate Errors}
-Incorrect use of aggregation functions such as COUNT, SUM, or MAX.
+These errors are incorrect generation of aggregation functions such as COUNT, SUM, MIN, AVG or MAX.
 
-\textbf{Symbolic Fix: Medium} Some aggregations may be solvable via constrained decoding following a HAVING keyword or be able to be inferred from the natural language context. However, many are not so easily fixable as they require deep understanding of the NL question and user's intent.
+\textbf{Symbolic Fix: Medium} Some aggregations may be solvable via constrained decoding if they follow HAVING or are otherwise able to be inferred from the natural language context. However, many are not so easily fixable as they require deep understanding of the user's intent.
 
 \textbf{Example}
-For the NL Question: "List the biographical data and student id for the students who take 2 or more classes and the students who have less than 2 detentions."
-
-Gold lexeme: \texttt{COUNT(*)}
-Predicted lexeme: \texttt{2}
-
-Correctly inserting COUNT(*) requires understanding the semantic intent and grouping by student.
+For the natural language question: "List the biographical data and student id for the students who take 2 or more classes and the students who have less than 2 detentions." Correctly inserting COUNT(*) requires understanding the semantic intent of the question.
 
 \subsection{Alias Errors}
-Errors in assigning or predicting values after an \texttt{AS} clause.
+These are errors in assigning or predicting values after an \texttt{AS} keyword.
 
 \textbf{Symbolic Fix: Easy} These errors can often be corrected by consulting the model's top-k predictions for valid alias names or enforcing syntactic constraints via constrained decoding.
 
@@ -80,15 +75,16 @@ Errors in assigning or predicting values after an \texttt{AS} clause.
 Gold lexeme \texttt{T2}  
 Predicted lexeme \texttt{2}  
 
-In this example, the model predicted a numeric literal instead of the correct alias after \texttt{AS} in a JOIN clause. Constrained decoding can enforce valid alias selection, preventing invalid identifiers like the predicted 2. 
+Constrained decoding can enforce valid alias selection, preventing invalid identifiers like the predicted 2. 
 
 \subsection{Other / Unclassified Errors}
 These are errors that do not cleanly fit into the rest of the taxonomy.
 
-\textbf{Symbolic Fix: Hard} These errors are difficult to detect and correct automatically, often involving multiple lexemes or hallucinated elements.
+\textbf{Symbolic Fix: Hard} These errors are difficult to detect and correct systematically.
 
 \textbf{Example}
 Gold: 50 
 Predicted: 75
+
 Gold Query: \texttt{SELECT Nationality FROM customer WHERE Card\_Credit  <  50 INTERSECT SELECT Nationality FROM customer WHERE Card\_Credit  >  75}
 This query involves understanding user's intent and managing values across subqueries. 
